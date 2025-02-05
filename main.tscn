@@ -1,0 +1,58 @@
+[gd_scene load_steps=10 format=3 uid="uid://c0oa86ykcul02"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_noafd"]
+[ext_resource type="PackedScene" uid="uid://cpaw4k42b182w" path="res://blueprints/xr_player.tscn" id="2_idgyc"]
+[ext_resource type="PackedScene" uid="uid://ncr68fliw4r8" path="res://blueprints/target/Target.tscn" id="4_v78wp"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_quvnu"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_5bwib"]
+sky_material = SubResource("ProceduralSkyMaterial_quvnu")
+
+[sub_resource type="Environment" id="Environment_blneg"]
+background_mode = 2
+sky = SubResource("Sky_5bwib")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oqy2u"]
+size = Vector3(10, 0.1, 10)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o1lgv"]
+albedo_color = Color(0.194349, 0.194349, 0.194349, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_qsqcc"]
+material = SubResource("StandardMaterial3D_o1lgv")
+size = Vector3(10, 0.1, 10)
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_noafd")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_blneg")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_oqy2u")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_qsqcc")
+
+[node name="XROrigin3D" parent="." instance=ExtResource("2_idgyc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.796416)
+
+[node name="RigidBox2" parent="." instance=ExtResource("4_v78wp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.119493, 1.45163, -1.99616)
+
+[node name="RigidBox" parent="." instance=ExtResource("4_v78wp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.662536, 1.53491, -1.4733)
+
+[node name="RigidBox3" parent="." instance=ExtResource("4_v78wp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.511626, 1.53491, -1.4733)
