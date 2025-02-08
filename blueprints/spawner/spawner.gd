@@ -12,4 +12,4 @@ func _on_spawn_timer_timeout() -> void:
 	var rigid_box_instance = rigid_box_scene.instantiate()
 	get_tree().root.add_child(rigid_box_instance)
 	rigid_box_instance.global_transform.origin = global_transform.origin + spawn_place
-	rigid_box_instance.apply_impulse(Vector3(0, 0, 10))
+	rigid_box_instance.apply_impulse(Vector3(0, 0, 5))
