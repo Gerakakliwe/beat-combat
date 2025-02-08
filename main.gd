@@ -15,3 +15,8 @@ func _ready() -> void:
 func _on_player_target_hit() -> void:
 	points += 1
 	hit_counter.text = str(points)
+
+
+func _on_player_player_hit() -> void:
+	points = 0
+	hit_counter.text = str(points)

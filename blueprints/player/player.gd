@@ -22,7 +22,16 @@ extends XROrigin3D
 @onready var ray_rb_3: RayCast3D = $Controller_Right/RightPhysicsHand/RayRB3
 @onready var right_rays: Array[RayCast3D] = [ray_rm_1, ray_rm_2, ray_rm_3, ray_rt_1, ray_rt_2, ray_rt_3, ray_rb_1, ray_rb_2, ray_rb_3]
 
+@onready var ray_mf: RayCast3D = $XRCamera3D/RayMF
+@onready var ray_ml: RayCast3D = $XRCamera3D/RayML
+@onready var ray_mr: RayCast3D = $XRCamera3D/RayMR
+@onready var ray_tl: RayCast3D = $XRCamera3D/RayTL
+@onready var ray_tt: RayCast3D = $XRCamera3D/RayTT
+@onready var ray_tr: RayCast3D = $XRCamera3D/RayTR
+@onready var head_rays: Array[RayCast3D] = [ray_mf, ray_ml, ray_mr, ray_tl, ray_tt, ray_tr]
+
 signal target_hit
+signal player_hit
 
 func _process(delta: float) -> void:
 	for left_ray in left_rays:
@@ -40,3 +49,7 @@ func _process(delta: float) -> void:
 			if(target):
 				target.free()
 				emit_signal("target_hit")
+	
+	for head_ray in head_rays:
+		if head_ray.is_colliding():
+			emit_signal("player_hit")
