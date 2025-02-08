@@ -1,9 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://c0oa86ykcul02"]
+[gd_scene load_steps=10 format=3 uid="uid://c0oa86ykcul02"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_noafd"]
 [ext_resource type="PackedScene" uid="uid://cqo2mirv5pd7n" path="res://blueprints/spawner/spawner.tscn" id="2_d1sa7"]
 [ext_resource type="PackedScene" uid="uid://cpaw4k42b182w" path="res://blueprints/player/xr_player.tscn" id="3_ppgdl"]
-[ext_resource type="PackedScene" uid="uid://fdtnb6yo8w5k" path="res://blueprints/obstacles/left_angle_wall.tscn" id="4_hrtdj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_quvnu"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -28,7 +27,7 @@ albedo_color = Color(0.194349, 0.194349, 0.194349, 1)
 material = SubResource("StandardMaterial3D_o1lgv")
 size = Vector3(10, 0.1, 10)
 
-[node name="Node3D" type="Node3D"]
+[node name="World" type="Node3D"]
 script = ExtResource("1_noafd")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -47,8 +46,7 @@ shape = SubResource("BoxShape3D_oqy2u")
 mesh = SubResource("BoxMesh_qsqcc")
 
 [node name="LeftStraightSpawner" parent="." instance=ExtResource("2_d1sa7")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0.45)
-rigid_box_scene = ExtResource("4_hrtdj")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.56, 0.45)
 spawn_place = Vector3(-0.2, 0, -10)
 
 [node name="RightStraightSpawner" parent="." instance=ExtResource("2_d1sa7")]
@@ -60,8 +58,18 @@ spawn_delay = 1.0
 
 [node name="HitCounter" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 2.5, -4)
-text = "0"
+text = "Combo: 0"
 font_size = 48
 
+[node name="VelocityDisplay" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 2, -4)
+text = "Hit velocity:"
+font_size = 48
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.969965, 0)
+current = true
+
+[connection signal="hit_velocity" from="Player" to="." method="_on_player_hit_velocity"]
 [connection signal="player_hit" from="Player" to="." method="_on_player_player_hit"]
 [connection signal="target_hit" from="Player" to="." method="_on_player_target_hit"]

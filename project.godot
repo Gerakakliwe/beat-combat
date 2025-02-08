@@ -24,6 +24,12 @@ XRToolsRumbleManager="*res://addons/godot-xr-tools/rumble/rumble_manager.gd"
 
 enabled=PackedStringArray("res://addons/godot-xr-tools/plugin.cfg")
 
+[physics]
+
+common/physics_ticks_per_second=72
+3d/default_linear_damp=0.0
+3d/default_angular_damp=0.0
+
 [rendering]
 
 textures/vram_compression/import_etc2_astc=true

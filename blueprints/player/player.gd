@@ -30,26 +30,47 @@ extends XROrigin3D
 @onready var ray_tr: RayCast3D = $XRCamera3D/RayTR
 @onready var head_rays: Array[RayCast3D] = [ray_mf, ray_ml, ray_mr, ray_tl, ray_tt, ray_tr]
 
+@onready var controller_left: XRController3D = $Controller_Left
+@onready var controller_right: XRController3D = $Controller_Right
+
 signal target_hit
+signal hit_velocity(linear_velocity)
 signal player_hit
 
-func _process(delta: float) -> void:
+var left_previous_position: Vector3
+var left_current_velocity: float = 0.0
+var right_previous_position: Vector3
+var right_current_velocity: float = 0.0
+
+func _ready() -> void:
+	left_previous_position = global_transform.origin
+	right_previous_position = global_transform.origin
+
+func _physics_process(delta: float) -> void:
+	var left_current_position = controller_left.global_transform.origin
+	left_current_velocity = (left_current_position - left_previous_position).length() / delta
+	left_previous_position = left_current_position
+
+	var right_current_position = controller_right.global_transform.origin
+	right_current_velocity = (right_current_position - right_previous_position).length() / delta
+	right_previous_position = right_current_position
+
 	for left_ray in left_rays:
+		left_ray.force_raycast_update()
 		if left_ray.is_colliding():
-			print("controller left collision")
 			var target = left_ray.get_collider()
-			if(target):
-				target.free()
-				emit_signal("target_hit")
-			
+			target.free()
+			emit_signal("hit_velocity", left_current_velocity)
+			emit_signal("target_hit")
+
 	for right_ray in right_rays:
+		right_ray.force_raycast_update()
 		if right_ray.is_colliding():
-			print("controller left collision")
 			var target = right_ray.get_collider()
-			if(target):
-				target.free()
-				emit_signal("target_hit")
-	
+			target.free()
+			emit_signal("hit_velocity", right_current_velocity)
+			emit_signal("target_hit")
+
 	for head_ray in head_rays:
 		if head_ray.is_colliding():
 			emit_signal("player_hit")
