@@ -12,4 +12,4 @@ func _on_spawn_timer_timeout() -> void:
 	var target_instance = target_scene.instantiate()
 	get_tree().root.add_child(target_instance)
 	target_instance.global_transform.origin = global_transform.origin + spawn_place
-	target_instance.apply_impulse(Vector3(0, 0, 5))
+	target_instance.apply_impulse(Vector3(0, 0, 3))

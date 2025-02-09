@@ -1,9 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://cpaw4k42b182w"]
+[gd_scene load_steps=6 format=3 uid="uid://cpaw4k42b182w"]
 
 [ext_resource type="PackedScene" uid="uid://ddsj74hpt1kgb" path="res://addons/godot-xr-tools/hands/scenes/highpoly/left_physics_tac_glove.tscn" id="1_1ocfq"]
 [ext_resource type="Script" path="res://blueprints/player/player.gd" id="1_tp42j"]
 [ext_resource type="PackedScene" uid="uid://b6xesntm4qeo5" path="res://addons/godot-xr-tools/hands/scenes/highpoly/right_physics_tac_glove.tscn" id="4_nv1st"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="5_iijdt"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ayngf"]
+size = Vector3(0.1, 0.1, 0.1)
 
 [node name="Player" type="XROrigin3D"]
 script = ExtResource("1_tp42j")
@@ -47,50 +50,13 @@ tracker = &"left_hand"
 [node name="LeftPhysicsHand" parent="Controller_Left" instance=ExtResource("1_1ocfq")]
 collision_layer = 0
 
-[node name="RayLT1" type="RayCast3D" parent="Controller_Left/LeftPhysicsHand"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.05)
-target_position = Vector3(-0.1, 0.1, -0.09)
+[node name="LeftHitArea" type="Area3D" parent="Controller_Left/LeftPhysicsHand"]
+collision_layer = 0
 collision_mask = 2
+monitorable = false
 
-[node name="RayLT2" type="RayCast3D" parent="Controller_Left/LeftPhysicsHand"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.05)
-target_position = Vector3(-0.1, 0, -0.09)
-collision_mask = 2
-
-[node name="RayLT3" type="RayCast3D" parent="Controller_Left/LeftPhysicsHand"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.05)
-target_position = Vector3(-0.1, -0.1, -0.09)
-collision_mask = 2
-
-[node name="RayLM1" type="RayCast3D" parent="Controller_Left/LeftPhysicsHand"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.05)
-target_position = Vector3(0, 0.1, -0.1)
-collision_mask = 2
-
-[node name="RayLM2" type="RayCast3D" parent="Controller_Left/LeftPhysicsHand"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.05)
-target_position = Vector3(0, 0, -0.1)
-collision_mask = 2
-
-[node name="RayLM3" type="RayCast3D" parent="Controller_Left/LeftPhysicsHand"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.05)
-target_position = Vector3(0, -0.1, -0.1)
-collision_mask = 2
-
-[node name="RayLB1" type="RayCast3D" parent="Controller_Left/LeftPhysicsHand"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.05)
-target_position = Vector3(0.1, 0.1, -0.09)
-collision_mask = 2
-
-[node name="RayLB2" type="RayCast3D" parent="Controller_Left/LeftPhysicsHand"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.05)
-target_position = Vector3(0.1, 0, -0.09)
-collision_mask = 2
-
-[node name="RayLB3" type="RayCast3D" parent="Controller_Left/LeftPhysicsHand"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.05)
-target_position = Vector3(0.1, -0.1, -0.09)
-collision_mask = 2
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Controller_Left/LeftPhysicsHand/LeftHitArea"]
+shape = SubResource("BoxShape3D_ayngf")
 
 [node name="Controller_Right" type="XRController3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0)
@@ -99,51 +65,17 @@ tracker = &"right_hand"
 [node name="RightPhysicsHand" parent="Controller_Right" instance=ExtResource("4_nv1st")]
 collision_layer = 0
 
-[node name="RayRT1" type="RayCast3D" parent="Controller_Right/RightPhysicsHand"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.05)
-target_position = Vector3(0.1, 0.1, -0.09)
+[node name="RightHitArea" type="Area3D" parent="Controller_Right/RightPhysicsHand"]
+collision_layer = 0
 collision_mask = 2
+monitorable = false
 
-[node name="RayRT2" type="RayCast3D" parent="Controller_Right/RightPhysicsHand"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.05)
-target_position = Vector3(0.1, 0, -0.09)
-collision_mask = 2
-
-[node name="RayRT3" type="RayCast3D" parent="Controller_Right/RightPhysicsHand"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.05)
-target_position = Vector3(0.1, -0.1, -0.09)
-collision_mask = 2
-
-[node name="RayRM1" type="RayCast3D" parent="Controller_Right/RightPhysicsHand"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.05)
-target_position = Vector3(0, 0.1, -0.1)
-collision_mask = 2
-
-[node name="RayRM2" type="RayCast3D" parent="Controller_Right/RightPhysicsHand"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.05)
-target_position = Vector3(0, 0, -0.1)
-collision_mask = 2
-
-[node name="RayRM3" type="RayCast3D" parent="Controller_Right/RightPhysicsHand"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.05)
-target_position = Vector3(0, -0.1, -0.1)
-collision_mask = 2
-
-[node name="RayRB1" type="RayCast3D" parent="Controller_Right/RightPhysicsHand"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.05)
-target_position = Vector3(-0.1, 0.1, -0.09)
-collision_mask = 2
-
-[node name="RayRB2" type="RayCast3D" parent="Controller_Right/RightPhysicsHand"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.05)
-target_position = Vector3(-0.1, 0, -0.09)
-collision_mask = 2
-
-[node name="RayRB3" type="RayCast3D" parent="Controller_Right/RightPhysicsHand"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.05)
-target_position = Vector3(-0.1, -0.1, -0.09)
-collision_mask = 2
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Controller_Right/RightPhysicsHand/RightHitArea"]
+shape = SubResource("BoxShape3D_ayngf")
 
 [node name="PlayerBody" parent="." instance=ExtResource("5_iijdt")]
 collision_mask = 1
 push_rigid_bodies = false
+
+[connection signal="body_entered" from="Controller_Left/LeftPhysicsHand/LeftHitArea" to="." method="_on_left_hit_area_body_entered"]
+[connection signal="body_entered" from="Controller_Right/RightPhysicsHand/RightHitArea" to="." method="_on_right_hit_area_body_entered"]

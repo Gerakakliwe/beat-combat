@@ -7,7 +7,7 @@ size = Vector3(0.3, 0.3, 0.1)
 albedo_color = Color(1, 0.452416, 0.383959, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pnrom"]
-size = Vector3(0.3, 0.3, 0.1)
+size = Vector3(0.3, 0.3, 0.12)
 
 [node name="StraightTarget" type="RigidBody3D"]
 collision_layer = 2
