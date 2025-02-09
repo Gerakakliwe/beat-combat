@@ -1,6 +1,6 @@
 extends Node3D
 
-@export var rigid_box_scene: PackedScene
+@export var target_scene: PackedScene
 @export var spawn_place: Vector3
 @export var spawn_delay: float
 
@@ -9,7 +9,7 @@ func _ready():
 	$SpawnTimer.start()
 
 func _on_spawn_timer_timeout() -> void:
-	var rigid_box_instance = rigid_box_scene.instantiate()
-	get_tree().root.add_child(rigid_box_instance)
-	rigid_box_instance.global_transform.origin = global_transform.origin + spawn_place
-	rigid_box_instance.apply_impulse(Vector3(0, 0, 5))
+	var target_instance = target_scene.instantiate()
+	get_tree().root.add_child(target_instance)
+	target_instance.global_transform.origin = global_transform.origin + spawn_place
+	target_instance.apply_impulse(Vector3(0, 0, 5))
