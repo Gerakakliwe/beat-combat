@@ -27,6 +27,7 @@ enabled=PackedStringArray("res://addons/godot-xr-tools/plugin.cfg")
 [physics]
 
 common/physics_ticks_per_second=72
+common/max_physics_steps_per_frame=10
 3d/default_linear_damp=0.0
 3d/default_angular_damp=0.0
 
