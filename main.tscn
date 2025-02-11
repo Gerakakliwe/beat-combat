@@ -50,12 +50,14 @@ mesh = SubResource("BoxMesh_qsqcc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.56, 0.45)
 target_scene = ExtResource("3_2yduq")
 spawn_place = Vector3(-0.2, 0, -10)
+spawn_target_color = Color(0.670588, 0.721569, 0, 0.67451)
 
 [node name="RightStraightSpawner" parent="." instance=ExtResource("2_d1sa7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.56, 0.45)
 target_scene = ExtResource("3_2yduq")
 spawn_place = Vector3(0.2, 0, -10)
 spawn_delay = 1.0
+spawn_target_color = Color(0.33715, 0.55, 0.253, 1)
 
 [node name="Player" parent="." instance=ExtResource("3_ppgdl")]
 
