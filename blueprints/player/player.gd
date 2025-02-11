@@ -39,10 +39,12 @@ func _physics_process(delta: float) -> void:
 
 func _on_left_hit_area_body_entered(body: Node3D) -> void:
 	body.free()
+	controller_left.trigger_haptic_pulse("haptic", 0.0, 0.5, 0.1, 0.0)
 	emit_signal("hit_velocity", left_current_velocity)
 	emit_signal("target_hit")
 
 func _on_right_hit_area_body_entered(body: Node3D) -> void:
 	body.free()
+	controller_right.trigger_haptic_pulse("haptic", 0.0, 0.5, 0.1, 0.0)
 	emit_signal("hit_velocity", right_current_velocity)
 	emit_signal("target_hit")
