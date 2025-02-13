@@ -1,9 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://c0oa86ykcul02"]
+[gd_scene load_steps=13 format=3 uid="uid://c0oa86ykcul02"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_noafd"]
 [ext_resource type="PackedScene" uid="uid://cqo2mirv5pd7n" path="res://blueprints/spawner/spawner.tscn" id="2_d1sa7"]
 [ext_resource type="PackedScene" uid="uid://ncr68fliw4r8" path="res://blueprints/targets/straight_target.tscn" id="3_2yduq"]
 [ext_resource type="PackedScene" uid="uid://cpaw4k42b182w" path="res://blueprints/player/player.tscn" id="3_ppgdl"]
+[ext_resource type="PackedScene" uid="uid://dmf2d6ly1x7ht" path="res://blueprints/targets/hook_right_target.tscn" id="4_ucb58"]
+[ext_resource type="PackedScene" uid="uid://b2rt8ayxms5yy" path="res://blueprints/obstacles/top_wall.tscn" id="5_4gsea"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_quvnu"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -46,18 +48,25 @@ shape = SubResource("BoxShape3D_oqy2u")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
 mesh = SubResource("BoxMesh_qsqcc")
 
-[node name="LeftStraightSpawner" parent="." instance=ExtResource("2_d1sa7")]
+[node name="LeftSpawner" parent="." instance=ExtResource("2_d1sa7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.56, 0.45)
 target_scene = ExtResource("3_2yduq")
 spawn_place = Vector3(-0.2, 0, -10)
 spawn_target_color = Color(0.670588, 0.721569, 0, 0.67451)
 
-[node name="RightStraightSpawner" parent="." instance=ExtResource("2_d1sa7")]
+[node name="RightSpawner" parent="." instance=ExtResource("2_d1sa7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.56, 0.45)
-target_scene = ExtResource("3_2yduq")
+target_scene = ExtResource("4_ucb58")
 spawn_place = Vector3(0.2, 0, -10)
 spawn_delay = 1.0
 spawn_target_color = Color(0.33715, 0.55, 0.253, 1)
+
+[node name="MiddleSpawner" parent="." instance=ExtResource("2_d1sa7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.56, 0.45)
+target_scene = ExtResource("5_4gsea")
+spawn_place = Vector3(0, 0.5, -10)
+spawn_delay = 4.0
+spawn_target_color = Color(0.347985, 0.469373, 0.779745, 1)
 
 [node name="Player" parent="." instance=ExtResource("3_ppgdl")]
 

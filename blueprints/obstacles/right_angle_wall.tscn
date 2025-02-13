@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddepeao1p0huk"]
+
+[ext_resource type="PackedScene" uid="uid://fdtnb6yo8w5k" path="res://blueprints/obstacles/left_angle_wall.tscn" id="1_ygy04"]
+
+[node name="RightAngleWall" instance=ExtResource("1_ygy04")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
