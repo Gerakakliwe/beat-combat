@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmf2d6ly1x7ht"]
+
+[ext_resource type="PackedScene" uid="uid://ncr68fliw4r8" path="res://blueprints/targets/straight_target.tscn" id="1_3imud"]
+
+[node name="HookRightTarget" instance=ExtResource("1_3imud")]
+transform = Transform3D(0.422618, 0, 0.906308, 0, 1, 0, -0.906308, 0, 0.422618, 0, 0, 0)
