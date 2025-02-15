@@ -1,0 +1,18 @@
+[
+	{"time": 0.91, "scene": "straight_left"},
+	{"time": 1.36, "scene": "straight_right"},
+	{"time": 1.81, "scene": "uppercut_left"},
+	{"time": 2.26, "scene": "hook_right"},
+	{"time": 2.71, "scene": "straight_left"},
+	{"time": 3.16, "scene": "straight_right"},
+	{"time": 3.61, "scene": "hook_left"},
+	{"time": 4.06, "scene": "uppercut_right"},
+	{"time": 4.51, "scene": "straight_left"},
+	{"time": 4.96, "scene": "straight_right"},
+	{"time": 5.41, "scene": "uppercut_left"},
+	{"time": 5.86, "scene": "hook_right"},
+	{"time": 6.31, "scene": "straight_left"},
+	{"time": 6.76, "scene": "straight_right"},
+	{"time": 7.21, "scene": "hook_left"},
+	{"time": 7.66, "scene": "uppercut_right"},
+]

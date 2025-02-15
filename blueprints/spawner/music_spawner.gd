@@ -3,6 +3,9 @@ extends Node
 @export var left_target_color: Color = Color.RED
 @export var right_target_color: Color = Color.BLUE
 
+@onready var event_index = 0
+@onready var audio_player = $AudioStreamPlayer
+
 var scenes = {
 	"straight_left": preload("res://blueprints/targets/straight_left_target.tscn"),
 	"straight_right": preload("res://blueprints/targets/straight_right_target.tscn"),
@@ -12,27 +15,7 @@ var scenes = {
 	"uppercut_right": preload("res://blueprints/targets/uppercut_right_target.tscn"),
 }
 
-var spawn_events = [
-	{"time": 0.91, "scene": "straight_left"},
-	{"time": 1.36, "scene": "straight_right"},
-	{"time": 1.81, "scene": "uppercut_left"},
-	{"time": 2.26, "scene": "hook_right"},
-	{"time": 2.71, "scene": "straight_left"},
-	{"time": 3.16, "scene": "straight_right"},
-	{"time": 3.61, "scene": "hook_left"},
-	{"time": 4.06, "scene": "uppercut_right"},
-	{"time": 4.51, "scene": "straight_left"},
-	{"time": 4.96, "scene": "straight_right"},
-	{"time": 5.41, "scene": "uppercut_left"},
-	{"time": 5.86, "scene": "hook_right"},
-	{"time": 6.31, "scene": "straight_left"},
-	{"time": 6.76, "scene": "straight_right"},
-	{"time": 7.21, "scene": "hook_left"},
-	{"time": 7.66, "scene": "uppercut_right"},
-]
-
-@onready var event_index = 0
-@onready var audio_player = $AudioStreamPlayer
+var spawn_events = load_spawn_events_from_json("res://music/deco27-Monitoring/deco-27-monitoring.json")
 
 func _physics_process(delta: float) -> void:
 	if event_index < spawn_events.size():
@@ -60,3 +43,20 @@ func spawn_event(scene_key):
 			mat.albedo_color = right_target_color
 		mesh.material_override = mat
 	instance.apply_impulse(Vector3(0, 0, 2.5))
+
+func load_spawn_events_from_json(file_path: String) -> Array:
+	if not FileAccess.file_exists(file_path):
+		push_error("File does not exist: " + file_path)
+		return []
+
+	var file = FileAccess.open(file_path, FileAccess.READ)
+	var json_text = file.get_as_text()
+	file.close()
+
+	var json = JSON.new()
+	var err = json.parse(json_text)
+	if err != OK:
+		push_error("JSON Parse Error: " + json.get_error_message() + " at line " + str(json.get_error_line()))
+		return []
+
+	return json.data
