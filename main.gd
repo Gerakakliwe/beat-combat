@@ -20,5 +20,9 @@ func _on_player_player_hit() -> void:
 	points = 0
 	hit_counter.text = str("Combo: ", points)
 
+func _on_player_wrong_target() -> void:
+	points = 0
+	hit_counter.text = str("Combo: ", points)
+
 func _on_player_hit_velocity(linear_velocity: Variant) -> void:
 	velocity_display.text = str("Hit velocity: ", snapped(linear_velocity, 0.1))

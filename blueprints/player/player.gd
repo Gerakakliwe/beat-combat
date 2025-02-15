@@ -14,6 +14,7 @@ extends XROrigin3D
 signal target_hit
 signal hit_velocity(linear_velocity)
 signal player_hit
+signal wrong_target
 
 var left_previous_position: Vector3
 var left_current_velocity: float = 0.0
@@ -38,13 +39,21 @@ func _physics_process(delta: float) -> void:
 			emit_signal("player_hit")
 
 func _on_left_hit_area_body_entered(body: Node3D) -> void:
-	body.free()
-	controller_left.trigger_haptic_pulse("haptic", 0.0, 0.5, 0.1, 0.0)
-	emit_signal("hit_velocity", left_current_velocity)
-	emit_signal("target_hit")
+	if (body.is_in_group("left_targets")):
+		body.free()
+		controller_left.trigger_haptic_pulse("haptic", 0.0, 0.5, 0.1, 0.0)
+		emit_signal("hit_velocity", left_current_velocity)
+		emit_signal("target_hit")
+	else:
+		body.free()
+		emit_signal("wrong_target")
 
 func _on_right_hit_area_body_entered(body: Node3D) -> void:
-	body.free()
-	controller_right.trigger_haptic_pulse("haptic", 0.0, 0.5, 0.1, 0.0)
-	emit_signal("hit_velocity", right_current_velocity)
-	emit_signal("target_hit")
+	if (body.is_in_group("right_targets")):
+		body.free()
+		controller_right.trigger_haptic_pulse("haptic", 0.0, 0.5, 0.1, 0.0)
+		emit_signal("hit_velocity", right_current_velocity)
+		emit_signal("target_hit")
+	else:
+		body.free()
+		emit_signal("wrong_target")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://ca54hvte74su"]
+[gd_scene load_steps=4 format=3 uid="uid://dqjil57axol0q"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_ydcdh"]
 size = Vector3(0.3, 0.3, 0.1)
@@ -9,8 +9,8 @@ albedo_color = Color(1, 0.452416, 0.383959, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_pnrom"]
 size = Vector3(0.3, 0.3, 0.12)
 
-[node name="HookLeftTarget" type="RigidBody3D" groups=["left_targets"]]
-transform = Transform3D(0.422618, 0, -0.906308, 0, 1, 0, 0.906308, 0, 0.422618, 0, 0, 0)
+[node name="UppercutLeftTarget" type="RigidBody3D" groups=["left_targets"]]
+transform = Transform3D(1, 0, 0, 0, 0.5, -0.866025, 0, 0.866025, 0.5, 0, 0, 0)
 collision_layer = 2
 collision_mask = 0
 gravity_scale = 0.0
