@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://dtd5bbfv0d07m"]
+
+[ext_resource type="AudioStream" uid="uid://d70vssfxtwxo" path="res://music/deco-27-monitoring.mp3" id="1_hhn23"]
+[ext_resource type="Script" path="res://blueprints/spawner/music_spawner.gd" id="1_t4uub"]
+
+[node name="MusicSpawner" type="Node"]
+script = ExtResource("1_t4uub")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("1_hhn23")
+autoplay = true
