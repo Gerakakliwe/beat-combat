@@ -34,10 +34,12 @@ var spawn_events = [
 @onready var event_index = 0
 @onready var audio_player = $AudioStreamPlayer
 
-func _process(delta):
+func _physics_process(delta: float) -> void:
 	if event_index < spawn_events.size():
-		var current_time = audio_player.get_playback_position()
+		var current_time = audio_player.get_playback_position() + AudioServer.get_time_since_last_mix()
+		current_time -= AudioServer.get_output_latency()
 		while event_index < spawn_events.size() and current_time >= spawn_events[event_index]["time"]:
+			print("spawn", current_time)
 			spawn_event(spawn_events[event_index]["scene"])
 			event_index += 1
 
