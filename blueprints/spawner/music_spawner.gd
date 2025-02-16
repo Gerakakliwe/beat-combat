@@ -15,14 +15,13 @@ var scenes = {
 	"uppercut_right": preload("res://blueprints/targets/uppercut_right_target.tscn"),
 }
 
-var spawn_events = load_spawn_events_from_json("res://music/deco27-Monitoring/deco-27-monitoring.json")
+var spawn_events = load_spawn_events_from_json("res://music/yomitan-akane-enma-the-second/enma-the-second.json")
 
 func _physics_process(delta: float) -> void:
 	if event_index < spawn_events.size():
 		var current_time = audio_player.get_playback_position() + AudioServer.get_time_since_last_mix()
 		current_time -= AudioServer.get_output_latency()
-		while event_index < spawn_events.size() and current_time >= spawn_events[event_index]["time"]:
-			print("spawn", current_time)
+		while event_index < spawn_events.size() and current_time >= spawn_events[event_index]["time"] - 4:
 			spawn_event(spawn_events[event_index]["scene"])
 			event_index += 1
 
