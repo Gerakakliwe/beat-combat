@@ -6,7 +6,7 @@ size = Vector3(4, 1, 0.1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_fome6"]
 size = Vector3(4, 1, 0.1)
 
-[node name="TopWall" type="RigidBody3D"]
+[node name="TopWall" type="RigidBody3D" groups=["obstacle"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -10)
 collision_layer = 4
 collision_mask = 0

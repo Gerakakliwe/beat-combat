@@ -2,6 +2,7 @@ extends Node3D
 
 @onready var hit_counter: Label3D = $HitCounter
 @onready var velocity_display: Label3D = $VelocityDisplay
+@onready var miss_zone: Area3D = $MissZone
 
 var xr_interface: XRInterface
 var points: int = 0
@@ -16,17 +17,29 @@ func _ready() -> void:
 func _on_player_target_hit(points_awarded: int) -> void:
 	points += points_awarded
 	combo +=1
-	hit_counter.text = "Combo: " + str(combo) + "\nPoints: " + str(points)
+	update_results()
 
 func _on_player_obstacle_hit() -> void:
 	combo = 0
-	hit_counter.text = "Combo: " + str(combo) + "\nPoints: " + str(points)
+	update_results()
 
 func _on_player_wrong_target_hit() -> void:
 	combo = 0
-	hit_counter.text = "Combo: " + str(combo) + "\nPoints: " + str(points)
+	update_results()
 
 func _on_player_hit_velocity(velocity_vector: Variant) -> void:
 	velocity_display.text = str("X: " + str(snapped(velocity_vector.x, 0.1)) + "\n" +
 								"Y: " + str(snapped(velocity_vector.y, 0.1)) + "\n" +
 								"Z: " + str(snapped(velocity_vector.z, 0.1)))
+
+
+func _on_miss_zone_body_entered(body: Node3D) -> void:
+	if body.is_in_group("left_target") or body.is_in_group("right_target"):
+		body.free()
+		combo = 0
+		update_results()
+	elif body.is_in_group("obstacle"):
+		body.free()
+
+func update_results():
+	hit_counter.text = "Combo: " + str(combo) + "\nPoints: " + str(points)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c0oa86ykcul02"]
+[gd_scene load_steps=11 format=3 uid="uid://c0oa86ykcul02"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_noafd"]
 [ext_resource type="PackedScene" uid="uid://cpaw4k42b182w" path="res://blueprints/player/player.tscn" id="3_ppgdl"]
@@ -26,6 +26,9 @@ albedo_color = Color(0.194349, 0.194349, 0.194349, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_qsqcc"]
 material = SubResource("StandardMaterial3D_o1lgv")
 size = Vector3(10, 0.1, 10)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1n6uq"]
+size = Vector3(2, 2, 0.1)
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_noafd")
@@ -68,7 +71,16 @@ current = true
 
 [node name="MusicSpawner" parent="." instance=ExtResource("3_tukhk")]
 
+[node name="MissZone" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 1.2)
+collision_layer = 0
+collision_mask = 6
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MissZone"]
+shape = SubResource("BoxShape3D_1n6uq")
+
 [connection signal="hit_velocity" from="Player" to="." method="_on_player_hit_velocity"]
 [connection signal="obstacle_hit" from="Player" to="." method="_on_player_obstacle_hit"]
 [connection signal="target_hit" from="Player" to="." method="_on_player_target_hit"]
 [connection signal="wrong_target_hit" from="Player" to="." method="_on_player_wrong_target_hit"]
+[connection signal="body_entered" from="MissZone" to="." method="_on_miss_zone_body_entered"]
