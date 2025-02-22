@@ -1,5 +1,21 @@
 extends XROrigin3D
 
+@onready var ray_mf: RayCast3D = $XRCamera3D/RayMF
+@onready var ray_ml: RayCast3D = $XRCamera3D/RayML
+@onready var ray_mr: RayCast3D = $XRCamera3D/RayMR
+@onready var ray_tl: RayCast3D = $XRCamera3D/RayTL
+@onready var ray_tt: RayCast3D = $XRCamera3D/RayTT
+@onready var ray_tr: RayCast3D = $XRCamera3D/RayTR
+@onready var head_rays: Array[RayCast3D] = [ray_mf, ray_ml, ray_mr, ray_tl, ray_tt, ray_tr]
+
+@onready var controller_left: XRController3D = $Controller_Left
+@onready var controller_right: XRController3D = $Controller_Right
+
+signal target_hit(points_awarded)
+signal hit_velocity(velocity_vector)
+signal obstacle_hit
+signal wrong_target_hit
+
 # Helper class to smooth velocity over several frames.
 class SmoothedVelocity:
 	var previous_position: Vector3
@@ -24,23 +40,6 @@ class SmoothedVelocity:
 			sum += v
 		return sum / history.size()
 
-
-@onready var ray_mf: RayCast3D = $XRCamera3D/RayMF
-@onready var ray_ml: RayCast3D = $XRCamera3D/RayML
-@onready var ray_mr: RayCast3D = $XRCamera3D/RayMR
-@onready var ray_tl: RayCast3D = $XRCamera3D/RayTL
-@onready var ray_tt: RayCast3D = $XRCamera3D/RayTT
-@onready var ray_tr: RayCast3D = $XRCamera3D/RayTR
-@onready var head_rays: Array[RayCast3D] = [ray_mf, ray_ml, ray_mr, ray_tl, ray_tt, ray_tr]
-
-@onready var controller_left: XRController3D = $Controller_Left
-@onready var controller_right: XRController3D = $Controller_Right
-
-signal target_hit
-signal hit_velocity(velocity_vector)
-signal obstacle_hit
-signal wrong_target_hit
-
 const SMOOTHING_FRAMES = 4
 
 var left_velocity_tracker: SmoothedVelocity
@@ -63,22 +62,59 @@ func _physics_process(delta: float) -> void:
 		if head_ray.is_colliding():
 			emit_signal("obstacle_hit")
 
+func get_points_for_axis(velocity_component: float, base: float) -> int:
+	if velocity_component >= base:
+		return 1000
+	elif velocity_component >= 0.9 * base:
+		return 500
+	elif velocity_component >= 0.8 * base:
+		return 100
+	else:
+		return 0
+
 func _on_left_hit_area_body_entered(body: Node3D) -> void:
-	if body.is_in_group("left_targets"):
+	var points_awarded: int = 0
+	if body.is_in_group("left_target"):
+		# Determine which axis target we hit:
+		if body.is_in_group("z_target"):
+			points_awarded = get_points_for_axis(abs(left_velocity_mean.z), 5.0)
+		elif body.is_in_group("x_target"):
+			points_awarded = get_points_for_axis(abs(left_velocity_mean.x), 6.0)
+		elif body.is_in_group("y_target"):
+			points_awarded = get_points_for_axis(abs(left_velocity_mean.y), 7.0)
+		else:
+			points_awarded = 0
+
 		body.free()
 		controller_left.trigger_haptic_pulse("haptic", 0.0, 0.5, 0.1, 0.0)
+
 		emit_signal("hit_velocity", left_velocity_mean)
-		emit_signal("target_hit")
+		if points_awarded > 0:
+			emit_signal("target_hit", points_awarded)
+		else:
+			emit_signal("wrong_target_hit")
 	else:
-		body.free()
 		emit_signal("wrong_target_hit")
 
 func _on_right_hit_area_body_entered(body: Node3D) -> void:
-	if body.is_in_group("right_targets"):
+	var points_awarded: int = 0
+	if body.is_in_group("right_target"):
+		if body.is_in_group("z_target"):
+			points_awarded = get_points_for_axis(abs(right_velocity_mean.z), 5.0)
+		elif body.is_in_group("x_target"):
+			points_awarded = get_points_for_axis(abs(right_velocity_mean.x), 6.0)
+		elif body.is_in_group("y_target"):
+			points_awarded = get_points_for_axis(abs(right_velocity_mean.y), 7.0)
+		else:
+			points_awarded = 0
+
 		body.free()
 		controller_right.trigger_haptic_pulse("haptic", 0.0, 0.5, 0.1, 0.0)
+
 		emit_signal("hit_velocity", right_velocity_mean)
-		emit_signal("target_hit")
+		if points_awarded > 0:
+			emit_signal("target_hit", points_awarded)
+		else:
+			emit_signal("wrong_target_hit")
 	else:
-		body.free()
 		emit_signal("wrong_target_hit")

@@ -49,12 +49,14 @@ mesh = SubResource("BoxMesh_qsqcc")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.85)
 
 [node name="HitCounter" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 3.72046, -4)
-text = "Combo: 0"
+transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 3.00821, -4)
+text = "Combo: 0
+Points: 0"
 font_size = 48
 
 [node name="VelocityDisplay" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 2.80726, -4)
+visible = false
 text = "X: 0
 Y: 0
 Z: 0"

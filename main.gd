@@ -5,6 +5,7 @@ extends Node3D
 
 var xr_interface: XRInterface
 var points: int = 0
+var combo: int = 0
 
 func _ready() -> void:
 	xr_interface = XRServer.find_interface("OpenXR")
@@ -12,17 +13,18 @@ func _ready() -> void:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 		get_viewport().use_xr = true
 
-func _on_player_target_hit() -> void:
-	points += 1
-	hit_counter.text = str("Combo: ", points)
+func _on_player_target_hit(points_awarded: int) -> void:
+	points += points_awarded
+	combo +=1
+	hit_counter.text = "Combo: " + str(combo) + "\nPoints: " + str(points)
 
 func _on_player_obstacle_hit() -> void:
-	points = 0
-	hit_counter.text = str("Combo: ", points)
+	combo = 0
+	hit_counter.text = "Combo: " + str(combo) + "\nPoints: " + str(points)
 
 func _on_player_wrong_target_hit() -> void:
-	points = 0
-	hit_counter.text = str("Combo: ", points)
+	combo = 0
+	hit_counter.text = "Combo: " + str(combo) + "\nPoints: " + str(points)
 
 func _on_player_hit_velocity(velocity_vector: Variant) -> void:
 	velocity_display.text = str("X: " + str(snapped(velocity_vector.x, 0.1)) + "\n" +

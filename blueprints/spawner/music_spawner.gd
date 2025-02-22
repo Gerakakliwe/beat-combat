@@ -44,9 +44,9 @@ func spawn_event(scene_key):
 			mat = StandardMaterial3D.new()
 		else:
 			mat = mat.duplicate()
-		if (instance.is_in_group("left_targets")):
+		if (instance.is_in_group("left_target")):
 			mat.albedo_color = left_target_color
-		elif (instance.is_in_group("right_targets")):
+		elif (instance.is_in_group("right_target")):
 			mat.albedo_color = right_target_color
 		else:
 			mat.albedo_color = obstacle_color

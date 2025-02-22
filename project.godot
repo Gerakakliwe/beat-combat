@@ -26,8 +26,11 @@ enabled=PackedStringArray("res://addons/godot-xr-tools/plugin.cfg")
 
 [global_group]
 
-right_targets=""
-left_targets=""
+y_target="targets that should be hit using y axis velocity"
+x_target="targets that should be hit using x axis velocity"
+z_target="targets that should be hit using z axis velocity"
+left_target="targets that are meat to be hit with left hand"
+right_target="targets that are meat to be hit with right hand"
 
 [physics]
 
