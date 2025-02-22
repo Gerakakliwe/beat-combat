@@ -2,6 +2,7 @@ extends Node
 
 @export var left_target_color: Color = Color.RED
 @export var right_target_color: Color = Color.BLUE
+@export var obstacle_color: Color = Color.BLACK
 
 @onready var event_index = 0
 @onready var audio_player = $AudioStreamPlayer
@@ -9,10 +10,17 @@ extends Node
 var scenes = {
 	"straight_left": preload("res://blueprints/targets/straight_left_target.tscn"),
 	"straight_right": preload("res://blueprints/targets/straight_right_target.tscn"),
+	"straight_low_left": preload("res://blueprints/targets/straight_low_left_target.tscn"),
+	"straight_low_right": preload("res://blueprints/targets/straight_low_right_target.tscn"),
+	"sky_punch_left": preload("res://blueprints/targets/sky_punch_left_target.tscn"),
+	"sky_punch_right": preload("res://blueprints/targets/sky_punch_right_target.tscn"),
 	"hook_left": preload("res://blueprints/targets/hook_left_target.tscn"),
 	"hook_right": preload("res://blueprints/targets/hook_right_target.tscn"),
 	"uppercut_left": preload("res://blueprints/targets/uppercut_left_target.tscn"),
 	"uppercut_right": preload("res://blueprints/targets/uppercut_right_target.tscn"),
+	"rope_slam_left": preload("res://blueprints/targets/rope_slam_left_target.tscn"),
+	"rope_slam_right": preload("res://blueprints/targets/rope_slam_right_target.tscn"),
+	"top_wall": preload("res://blueprints/obstacles/top_wall.tscn"),
 }
 
 var spawn_events = load_spawn_events_from_json("res://music/yomitan-akane-enma-the-second/enma-the-second.json")
@@ -38,8 +46,10 @@ func spawn_event(scene_key):
 			mat = mat.duplicate()
 		if (instance.is_in_group("left_targets")):
 			mat.albedo_color = left_target_color
-		else:
+		elif (instance.is_in_group("right_targets")):
 			mat.albedo_color = right_target_color
+		else:
+			mat.albedo_color = obstacle_color
 		mesh.material_override = mat
 	instance.apply_impulse(Vector3(0, 0, 2.5))
 

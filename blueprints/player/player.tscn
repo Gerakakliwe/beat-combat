@@ -34,7 +34,7 @@ collision_mask = 4
 collide_with_areas = true
 
 [node name="RayTT" type="RayCast3D" parent="XRCamera3D"]
-target_position = Vector3(0, 0.2, 0)
+target_position = Vector3(0, 0.1, 0)
 collision_mask = 4
 collide_with_areas = true
 
