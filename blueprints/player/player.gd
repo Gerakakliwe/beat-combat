@@ -12,13 +12,15 @@ extends XROrigin3D
 @onready var controller_right: XRController3D = $Controller_Right
 
 signal target_hit
-signal hit_velocity(linear_velocity)
-signal player_hit
-signal wrong_target
+signal hit_velocity(velocity_vector)
+signal obstacle_hit
+signal wrong_target_hit
 
 var left_previous_position: Vector3
+var left_velocity_vector: Vector3
 var left_current_velocity: float = 0.0
 var right_previous_position: Vector3
+var right_velocity_vector: Vector3
 var right_current_velocity: float = 0.0
 
 func _ready() -> void:
@@ -28,32 +30,34 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	var left_current_position = controller_left.global_transform.origin
 	left_current_velocity = (left_current_position - left_previous_position).length() / delta
+	left_velocity_vector = (left_current_position - left_previous_position) / delta
 	left_previous_position = left_current_position
 
 	var right_current_position = controller_right.global_transform.origin
 	right_current_velocity = (right_current_position - right_previous_position).length() / delta
+	right_velocity_vector = (right_current_position - right_previous_position) / delta
 	right_previous_position = right_current_position
 
 	for head_ray in head_rays:
 		if head_ray.is_colliding():
-			emit_signal("player_hit")
+			emit_signal("obstacle_hit")
 
 func _on_left_hit_area_body_entered(body: Node3D) -> void:
 	if (body.is_in_group("left_targets")):
 		body.free()
 		controller_left.trigger_haptic_pulse("haptic", 0.0, 0.5, 0.1, 0.0)
-		emit_signal("hit_velocity", left_current_velocity)
+		emit_signal("hit_velocity", left_velocity_vector)
 		emit_signal("target_hit")
 	else:
 		body.free()
-		emit_signal("wrong_target")
+		emit_signal("wrong_target_hit")
 
 func _on_right_hit_area_body_entered(body: Node3D) -> void:
 	if (body.is_in_group("right_targets")):
 		body.free()
 		controller_right.trigger_haptic_pulse("haptic", 0.0, 0.5, 0.1, 0.0)
-		emit_signal("hit_velocity", right_current_velocity)
+		emit_signal("hit_velocity", right_velocity_vector)
 		emit_signal("target_hit")
 	else:
 		body.free()
-		emit_signal("wrong_target")
+		emit_signal("wrong_target_hit")

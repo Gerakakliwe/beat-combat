@@ -16,13 +16,15 @@ func _on_player_target_hit() -> void:
 	points += 1
 	hit_counter.text = str("Combo: ", points)
 
-func _on_player_player_hit() -> void:
+func _on_player_obstacle_hit() -> void:
 	points = 0
 	hit_counter.text = str("Combo: ", points)
 
-func _on_player_wrong_target() -> void:
+func _on_player_wrong_target_hit() -> void:
 	points = 0
 	hit_counter.text = str("Combo: ", points)
 
-func _on_player_hit_velocity(linear_velocity: Variant) -> void:
-	velocity_display.text = str("Hit velocity: ", snapped(linear_velocity, 0.1))
+func _on_player_hit_velocity(velocity_vector: Variant) -> void:
+	velocity_display.text = str("X: " + str(snapped(velocity_vector.x, 0.1)) + "\n" +
+								"Y: " + str(snapped(velocity_vector.y, 0.1)) + "\n" +
+								"Z: " + str(snapped(velocity_vector.z, 0.1)))
