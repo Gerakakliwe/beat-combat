@@ -2,7 +2,7 @@ extends Node
 
 @export var left_target_color: Color = Color.RED
 @export var right_target_color: Color = Color.BLUE
-@export var obstacle_color: Color = Color.BLACK
+@export var obstacle_color: Color = Color.ORANGE
 
 @onready var event_index = 0
 @onready var audio_player = $AudioStreamPlayer
@@ -50,6 +50,7 @@ func spawn_event(scene_key):
 			mat.albedo_color = right_target_color
 		else:
 			mat.albedo_color = obstacle_color
+			mat.blend_mode = 1
 		mesh.material_override = mat
 	instance.apply_impulse(Vector3(0, 0, 2.5))
 
