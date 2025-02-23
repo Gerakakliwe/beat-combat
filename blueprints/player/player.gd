@@ -46,6 +46,7 @@ var right_velocity_mean: Vector3
 var pending_knee_target: Node3D = null    # When one controller first collides with a knee target.
 var active_knee_target: Node3D = null     # Once both controllers have touched the same knee target.
 var knee_strike_in_progress: bool = false
+var active_knee_hit_zone: Array[Node3D] = []
 var HIP_LEVEL_Y: float = 1.3
 
 func _ready() -> void:
@@ -73,6 +74,9 @@ func _physics_process(delta: float) -> void:
 			controller_right.trigger_haptic_pulse("haptic", 0.0, 0.8, 0.1, 0.0)
 
 			active_knee_target.queue_free()
+			if !active_knee_hit_zone.is_empty():
+				active_knee_hit_zone[0].queue_free()
+				active_knee_hit_zone.remove_at(0)
 			reset_knee_strike_state()
 
 func _on_left_hit_area_body_entered(body: Node3D) -> void:
@@ -149,6 +153,9 @@ func reset_knee_strike_state() -> void:
 func cancel_knee_strike() -> void:
 	if active_knee_target:
 		active_knee_target.queue_free()
+	if !active_knee_hit_zone.is_empty():
+		active_knee_hit_zone[0].queue_free()
+		active_knee_hit_zone.remove_at(0)
 	reset_knee_strike_state()
 
 func get_points_for_axis(velocity_component: float, base: float) -> int:
@@ -160,3 +167,7 @@ func get_points_for_axis(velocity_component: float, base: float) -> int:
 		return 100
 	else:
 		return 0
+
+func _on_music_spawner_knee_hitzone_spawn(instance: Variant) -> void:
+	active_knee_hit_zone.append(instance)
+	print(active_knee_hit_zone)

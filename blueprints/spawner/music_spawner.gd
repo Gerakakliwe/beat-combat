@@ -7,6 +7,8 @@ extends Node
 @onready var event_index = 0
 @onready var audio_player = $AudioStreamPlayer
 
+signal knee_hitzone_spawn(instance)
+
 var scenes = {
 	"straight_left": preload("res://blueprints/targets/straight_left_target.tscn"),
 	"straight_right": preload("res://blueprints/targets/straight_right_target.tscn"),
@@ -55,6 +57,8 @@ func spawn_event(scene_key):
 			mat.blend_mode = 1
 		mesh.material_override = mat
 	instance.apply_impulse(Vector3(0, 0, 2.5))
+	if (instance.is_in_group("knee_hit_zone")):
+		emit_signal("knee_hitzone_spawn", instance)
 
 func load_spawn_events_from_json(file_path: String) -> Array:
 	if not FileAccess.file_exists(file_path):

@@ -9,15 +9,11 @@
 	},
 	{
 		"time": 7.552,
-		"scene": "straight_right"
-	},
-	{
-		"time": 7.996,
-		"scene": "sky_punch_left"
+		"scene": "knee_top_left"
 	},
 	{
 		"time": 8.44,
-		"scene": "sky_punch_right"
+		"scene": "knee_top_left_hit_zone"
 	},
 	{
 		"time": 8.884,
