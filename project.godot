@@ -32,6 +32,7 @@ z_target="targets that should be hit using z axis velocity"
 left_target="targets that are meat to be hit with left hand"
 right_target="targets that are meat to be hit with right hand"
 obstacle="obstacles"
+knee_target="knee strikes"
 
 [physics]
 

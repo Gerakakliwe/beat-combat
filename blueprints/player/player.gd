@@ -47,13 +47,17 @@ var right_velocity_tracker: SmoothedVelocity
 var left_velocity_mean: Vector3
 var right_velocity_mean: Vector3
 
+# Variables for knee strike handling.
+var pending_knee_target: Node3D = null    # When one controller first collides with a knee target.
+var active_knee_target: Node3D = null     # Once both controllers have touched the same knee target.
+var knee_strike_in_progress: bool = false
+var HIP_LEVEL_Y: float = 1.3
+
 func _ready() -> void:
-	# Initialize each tracker with the current global origin.
 	left_velocity_tracker = SmoothedVelocity.new(controller_left.global_transform.origin, SMOOTHING_FRAMES)
 	right_velocity_tracker = SmoothedVelocity.new(controller_right.global_transform.origin, SMOOTHING_FRAMES)
 
 func _physics_process(delta: float) -> void:
-	# Update the left and right velocity trackers.
 	left_velocity_mean = left_velocity_tracker.update(controller_left.global_transform.origin, delta)
 	right_velocity_mean = right_velocity_tracker.update(controller_right.global_transform.origin, delta)
 
@@ -62,26 +66,35 @@ func _physics_process(delta: float) -> void:
 		if head_ray.is_colliding():
 			emit_signal("obstacle_hit")
 
-func get_points_for_axis(velocity_component: float, base: float) -> int:
-	if velocity_component >= base:
-		return 1000
-	elif velocity_component >= 0.9 * base:
-		return 500
-	elif velocity_component >= 0.8 * base:
-		return 100
-	else:
-		return 0
+	if knee_strike_in_progress and active_knee_target:
+		var mid_point: Vector3 = (controller_left.global_transform.origin + controller_right.global_transform.origin) / 2
+		active_knee_target.global_transform.origin = mid_point
+
+		if mid_point.y < HIP_LEVEL_Y:
+			var avg_downward_velocity = ((left_velocity_mean.y + right_velocity_mean.y) / 2)
+			var points_awarded = get_points_for_axis(abs(avg_downward_velocity), 3.0)
+			emit_signal("target_hit", points_awarded)
+
+			controller_left.trigger_haptic_pulse("haptic", 0.0, 0.8, 0.1, 0.0)
+			controller_right.trigger_haptic_pulse("haptic", 0.0, 0.8, 0.1, 0.0)
+
+			active_knee_target.queue_free()
+			reset_knee_strike_state()
 
 func _on_left_hit_area_body_entered(body: Node3D) -> void:
+	# Check for knee strike targets first.
+	if body.is_in_group("knee_target"):
+		handle_knee_target_collision(body)
+		return
+
 	var points_awarded: int = 0
 	if body.is_in_group("left_target"):
-		# Determine which axis target we hit:
 		if body.is_in_group("z_target"):
 			points_awarded = get_points_for_axis(abs(left_velocity_mean.z), 5.0)
 		elif body.is_in_group("x_target"):
 			points_awarded = get_points_for_axis(abs(left_velocity_mean.x), 6.0)
 		elif body.is_in_group("y_target"):
-			points_awarded = get_points_for_axis(abs(left_velocity_mean.y), 7.0)
+			points_awarded = get_points_for_axis(abs(left_velocity_mean.y), 5.0)
 		else:
 			points_awarded = 0
 
@@ -97,6 +110,11 @@ func _on_left_hit_area_body_entered(body: Node3D) -> void:
 		emit_signal("wrong_target_hit")
 
 func _on_right_hit_area_body_entered(body: Node3D) -> void:
+	# Check for knee strike targets first.
+	if body.is_in_group("knee_target"):
+		handle_knee_target_collision(body)
+		return
+
 	var points_awarded: int = 0
 	if body.is_in_group("right_target"):
 		if body.is_in_group("z_target"):
@@ -118,3 +136,37 @@ func _on_right_hit_area_body_entered(body: Node3D) -> void:
 			emit_signal("wrong_target_hit")
 	else:
 		emit_signal("wrong_target_hit")
+
+# Handles collisions with knee strike targets.
+func handle_knee_target_collision(body: Node3D) -> void:
+	if pending_knee_target == null:
+		pending_knee_target = body
+	else:
+		# If the pending knee target is the same as this body and the knee strike isn’t already active,
+		# then both controllers have touched it—start the knee strike.
+		if pending_knee_target == body and not knee_strike_in_progress:
+			attach_knee_target(body)
+
+# Attaches the knee target to the controllers.
+func attach_knee_target(body: Node3D) -> void:
+	active_knee_target = body
+	knee_strike_in_progress = true
+	body.get_parent().remove_child(body)
+	add_child(body)
+
+# Resets all knee strike-related state.
+func reset_knee_strike_state() -> void:
+	pending_knee_target = null
+	active_knee_target = null
+	knee_strike_in_progress = false
+
+# (Optional) You can adjust the points calculation for knee strikes.
+func get_points_for_axis(velocity_component: float, base: float) -> int:
+	if velocity_component >= base:
+		return 1000
+	elif velocity_component >= 0.9 * base:
+		return 500
+	elif velocity_component >= 0.8 * base:
+		return 100
+	else:
+		return 0

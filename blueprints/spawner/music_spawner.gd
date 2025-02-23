@@ -20,6 +20,7 @@ var scenes = {
 	"uppercut_right": preload("res://blueprints/targets/uppercut_right_target.tscn"),
 	"rope_slam_left": preload("res://blueprints/targets/rope_slam_left_target.tscn"),
 	"rope_slam_right": preload("res://blueprints/targets/rope_slam_right_target.tscn"),
+	"knee_top_left": preload("res://blueprints/targets/knee_top_left_target.tscn"),
 	"top_wall": preload("res://blueprints/obstacles/top_wall.tscn"),
 }
 
