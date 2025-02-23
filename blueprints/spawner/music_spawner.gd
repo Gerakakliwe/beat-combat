@@ -41,24 +41,25 @@ func spawn_event(scene_key):
 	var scene = scenes[scene_key]
 	var instance = scene.instantiate()
 	add_child(instance)
+	setup_instance_material(instance)
+	instance.apply_impulse(Vector3(0, 0, 2.5))
+	if instance.is_in_group("knee_hit_zone"):
+		emit_signal("knee_hitzone_spawn", instance)
+
+func setup_instance_material(instance: Node) -> void:
 	var mesh = instance.get_node("MeshInstance3D")
 	if mesh:
-		var mat = mesh.material_override
-		if not mat:
-			mat = StandardMaterial3D.new()
-		else:
-			mat = mat.duplicate()
-		if (instance.is_in_group("left_target")):
+		var mat = mesh.material_override if mesh.material_override else StandardMaterial3D.new()
+		# Duplicate the material to avoid modifying shared resources.
+		mat = mat.duplicate()
+		if instance.is_in_group("left_target"):
 			mat.albedo_color = left_target_color
-		elif (instance.is_in_group("right_target")):
+		elif instance.is_in_group("right_target"):
 			mat.albedo_color = right_target_color
 		else:
 			mat.albedo_color = obstacle_color
 			mat.blend_mode = 1
 		mesh.material_override = mat
-	instance.apply_impulse(Vector3(0, 0, 2.5))
-	if (instance.is_in_group("knee_hit_zone")):
-		emit_signal("knee_hitzone_spawn", instance)
 
 func load_spawn_events_from_json(file_path: String) -> Array:
 	if not FileAccess.file_exists(file_path):

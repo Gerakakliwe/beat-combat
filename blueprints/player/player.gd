@@ -57,9 +57,7 @@ func _physics_process(delta: float) -> void:
 	left_velocity_mean = left_velocity_tracker.update(controller_left.global_transform.origin, delta)
 	right_velocity_mean = right_velocity_tracker.update(controller_right.global_transform.origin, delta)
 
-	for head_ray in head_rays:
-		if head_ray.is_colliding():
-			emit_signal("obstacle_hit")
+	check_head_rays()
 
 	if knee_strike_in_progress and active_knee_target:
 		var mid_point: Vector3 = (controller_left.global_transform.origin + controller_right.global_transform.origin) / 2
@@ -79,37 +77,18 @@ func _physics_process(delta: float) -> void:
 				active_knee_hit_zone.remove_at(0)
 			reset_knee_strike_state()
 
+func check_head_rays() -> void:
+	for ray in head_rays:
+		if ray.is_colliding():
+			emit_signal("obstacle_hit")
+
 func _on_left_hit_area_body_entered(body: Node3D) -> void:
-	if body.is_in_group("knee_hit_zone"):
-		return
-
-	elif body.is_in_group("knee_target"):
-		handle_knee_target_collision(body)
-		return
-
-	var points_awarded: int = 0
-	if body.is_in_group("left_target"):
-		if body.is_in_group("z_target"):
-			points_awarded = get_points_for_axis(abs(left_velocity_mean.z), 5.0)
-		elif body.is_in_group("x_target"):
-			points_awarded = get_points_for_axis(abs(left_velocity_mean.x), 6.0)
-		elif body.is_in_group("y_target"):
-			points_awarded = get_points_for_axis(abs(left_velocity_mean.y), 5.0)
-		else:
-			points_awarded = 0
-
-		body.free()
-		controller_left.trigger_haptic_pulse("haptic", 0.0, 0.5, 0.1, 0.0)
-
-		emit_signal("hit_velocity", left_velocity_mean)
-		if points_awarded > 0:
-			emit_signal("target_hit", points_awarded)
-		else:
-			emit_signal("wrong_target_hit")
-	else:
-		emit_signal("wrong_target_hit")
+	_on_hit_area_body_entered(body, "left")
 
 func _on_right_hit_area_body_entered(body: Node3D) -> void:
+	_on_hit_area_body_entered(body, "right")
+
+func _on_hit_area_body_entered(body: Node3D, hand: String) -> void:
 	if body.is_in_group("knee_hit_zone"):
 		return
 
@@ -117,21 +96,29 @@ func _on_right_hit_area_body_entered(body: Node3D) -> void:
 		handle_knee_target_collision(body)
 		return
 
+	var velocity_mean: Vector3
+	var controller: XRController3D
+	if hand == "left":
+		velocity_mean = left_velocity_mean
+		controller = controller_left
+	else:
+		velocity_mean = right_velocity_mean
+		controller = controller_right
+
 	var points_awarded: int = 0
-	if body.is_in_group("right_target"):
+	if body.is_in_group(hand + "_target"):
 		if body.is_in_group("z_target"):
-			points_awarded = get_points_for_axis(abs(right_velocity_mean.z), 5.0)
+			points_awarded = get_points_for_axis(abs(velocity_mean.z), 5.0)
 		elif body.is_in_group("x_target"):
-			points_awarded = get_points_for_axis(abs(right_velocity_mean.x), 6.0)
+			points_awarded = get_points_for_axis(abs(velocity_mean.x), 6.0)
 		elif body.is_in_group("y_target"):
-			points_awarded = get_points_for_axis(abs(right_velocity_mean.y), 7.0)
+			points_awarded = get_points_for_axis(abs(velocity_mean.y), 5.0)
 		else:
 			points_awarded = 0
 
-		body.free()
-		controller_right.trigger_haptic_pulse("haptic", 0.0, 0.5, 0.1, 0.0)
-
-		emit_signal("hit_velocity", right_velocity_mean)
+		body.queue_free()
+		controller.trigger_haptic_pulse("haptic", 0.0, 0.5, 0.1, 0.0)
+		emit_signal("hit_velocity", velocity_mean)
 		if points_awarded > 0:
 			emit_signal("target_hit", points_awarded)
 		else:
