@@ -3,6 +3,7 @@ extends Node3D
 @onready var hit_counter: Label3D = $HitCounter
 @onready var velocity_display: Label3D = $VelocityDisplay
 @onready var miss_zone: Area3D = $MissZone
+@onready var player: XROrigin3D = $Player
 
 var xr_interface: XRInterface
 var points: int = 0
@@ -34,12 +35,15 @@ func _on_player_hit_velocity(velocity_vector: Variant) -> void:
 
 
 func _on_miss_zone_body_entered(body: Node3D) -> void:
+	if body.is_in_group("knee_hit_zone"):
+		if player and player.has_method("cancel_knee_strike"):
+			player.cancel_knee_strike()
+			combo = 0
+			update_results()
 	if body.is_in_group("left_target") or body.is_in_group("right_target"):
-		body.free()
 		combo = 0
 		update_results()
-	elif body.is_in_group("obstacle"):
-		body.free()
+	body.free()
 
 func update_results():
 	hit_counter.text = "Combo: " + str(combo) + "\nPoints: " + str(points)

@@ -16,7 +16,6 @@ signal hit_velocity(velocity_vector)
 signal obstacle_hit
 signal wrong_target_hit
 
-# Helper class to smooth velocity over several frames.
 class SmoothedVelocity:
 	var previous_position: Vector3
 	var history: Array[Vector3] = []
@@ -27,14 +26,11 @@ class SmoothedVelocity:
 		self.smoothing_frames = smoothing_frames
 
 	func update(current_position: Vector3, delta: float) -> Vector3:
-		# Calculate instantaneous velocity.
 		var inst_velocity = (current_position - previous_position) / delta
 		previous_position = current_position
-		# Add it to history.
 		history.append(inst_velocity)
 		if history.size() > smoothing_frames:
 			history.remove_at(0)
-		# Average the history.
 		var sum: Vector3 = Vector3.ZERO
 		for v in history:
 			sum += v
@@ -47,7 +43,6 @@ var right_velocity_tracker: SmoothedVelocity
 var left_velocity_mean: Vector3
 var right_velocity_mean: Vector3
 
-# Variables for knee strike handling.
 var pending_knee_target: Node3D = null    # When one controller first collides with a knee target.
 var active_knee_target: Node3D = null     # Once both controllers have touched the same knee target.
 var knee_strike_in_progress: bool = false
@@ -61,7 +56,6 @@ func _physics_process(delta: float) -> void:
 	left_velocity_mean = left_velocity_tracker.update(controller_left.global_transform.origin, delta)
 	right_velocity_mean = right_velocity_tracker.update(controller_right.global_transform.origin, delta)
 
-	# Check for head collisions.
 	for head_ray in head_rays:
 		if head_ray.is_colliding():
 			emit_signal("obstacle_hit")
@@ -82,7 +76,6 @@ func _physics_process(delta: float) -> void:
 			reset_knee_strike_state()
 
 func _on_left_hit_area_body_entered(body: Node3D) -> void:
-	# Check for knee strike targets first.
 	if body.is_in_group("knee_target"):
 		handle_knee_target_collision(body)
 		return
@@ -110,7 +103,6 @@ func _on_left_hit_area_body_entered(body: Node3D) -> void:
 		emit_signal("wrong_target_hit")
 
 func _on_right_hit_area_body_entered(body: Node3D) -> void:
-	# Check for knee strike targets first.
 	if body.is_in_group("knee_target"):
 		handle_knee_target_collision(body)
 		return
@@ -137,7 +129,6 @@ func _on_right_hit_area_body_entered(body: Node3D) -> void:
 	else:
 		emit_signal("wrong_target_hit")
 
-# Handles collisions with knee strike targets.
 func handle_knee_target_collision(body: Node3D) -> void:
 	if pending_knee_target == null:
 		pending_knee_target = body
@@ -145,22 +136,21 @@ func handle_knee_target_collision(body: Node3D) -> void:
 		# If the pending knee target is the same as this body and the knee strike isn’t already active,
 		# then both controllers have touched it—start the knee strike.
 		if pending_knee_target == body and not knee_strike_in_progress:
-			attach_knee_target(body)
+			active_knee_target = body
+			knee_strike_in_progress = true
+			body.get_parent().remove_child(body)
+			add_child(body)
 
-# Attaches the knee target to the controllers.
-func attach_knee_target(body: Node3D) -> void:
-	active_knee_target = body
-	knee_strike_in_progress = true
-	body.get_parent().remove_child(body)
-	add_child(body)
-
-# Resets all knee strike-related state.
 func reset_knee_strike_state() -> void:
 	pending_knee_target = null
 	active_knee_target = null
 	knee_strike_in_progress = false
 
-# (Optional) You can adjust the points calculation for knee strikes.
+func cancel_knee_strike() -> void:
+	if active_knee_target:
+		active_knee_target.queue_free()
+	reset_knee_strike_state()
+
 func get_points_for_axis(velocity_component: float, base: float) -> int:
 	if velocity_component >= base:
 		return 1000

@@ -4,6 +4,10 @@
 		"scene": "knee_top_left"
 	},
 	{
+		"time": 5.332,
+		"scene": "knee_top_left_hit_zone"
+	},
+	{
 		"time": 7.552,
 		"scene": "straight_right"
 	},
