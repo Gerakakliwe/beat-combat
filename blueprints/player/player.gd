@@ -81,7 +81,8 @@ func _physics_process(delta: float) -> void:
 
 func _on_left_hit_area_body_entered(body: Node3D) -> void:
 	if body.is_in_group("knee_hit_zone"):
-		cancel_knee_strike()
+		return
+
 	elif body.is_in_group("knee_target"):
 		handle_knee_target_collision(body)
 		return
@@ -110,8 +111,9 @@ func _on_left_hit_area_body_entered(body: Node3D) -> void:
 
 func _on_right_hit_area_body_entered(body: Node3D) -> void:
 	if body.is_in_group("knee_hit_zone"):
-		cancel_knee_strike()
-	elif body.is_in_group("knee_target"):
+		return
+
+	if body.is_in_group("knee_target"):
 		handle_knee_target_collision(body)
 		return
 
