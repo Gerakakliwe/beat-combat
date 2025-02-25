@@ -35,7 +35,7 @@ func _on_player_hit_velocity(velocity_vector: Variant) -> void:
 
 
 func _on_miss_zone_body_entered(body: Node3D) -> void:
-	if body.is_in_group("knee_hit_zone"):
+	if body.is_in_group("knee_target") or body.is_in_group("knee_hit_zone"):
 		if player and player.has_method("cancel_knee_strike"):
 			player.cancel_knee_strike()
 			combo = 0

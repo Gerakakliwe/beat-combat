@@ -7,6 +7,7 @@ extends Node
 @onready var event_index = 0
 @onready var audio_player = $AudioStreamPlayer
 
+signal knee_target_spawn(instance)
 signal knee_hitzone_spawn(instance)
 
 var scenes = {
@@ -43,6 +44,8 @@ func spawn_event(scene_key):
 	add_child(instance)
 	setup_instance_material(instance)
 	instance.apply_impulse(Vector3(0, 0, 2.5))
+	if instance.is_in_group("knee_target"):
+		emit_signal("knee_target_spawn", instance)
 	if instance.is_in_group("knee_hit_zone"):
 		emit_signal("knee_hitzone_spawn", instance)
 

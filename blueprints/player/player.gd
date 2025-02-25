@@ -46,6 +46,7 @@ var right_velocity_mean: Vector3
 var pending_knee_target: Node3D = null    # When one controller first collides with a knee target.
 var active_knee_target: Node3D = null     # Once both controllers have touched the same knee target.
 var knee_strike_in_progress: bool = false
+var knee_strikes: Array[Node3D] = []
 var active_knee_hit_zone: Array[Node3D] = []
 var HIP_LEVEL_Y: float = 1.3
 
@@ -164,3 +165,7 @@ func get_points_for_axis(velocity_component: float, base: float) -> int:
 func _on_music_spawner_knee_hitzone_spawn(instance: Variant) -> void:
 	active_knee_hit_zone.append(instance)
 	print(active_knee_hit_zone)
+
+func _on_music_spawner_knee_target_spawn(instance: Variant) -> void:
+	knee_strikes.append(instance)
+	print(knee_strikes)
