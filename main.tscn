@@ -84,4 +84,5 @@ shape = SubResource("BoxShape3D_1n6uq")
 [connection signal="target_hit" from="Player" to="." method="_on_player_target_hit"]
 [connection signal="wrong_target_hit" from="Player" to="." method="_on_player_wrong_target_hit"]
 [connection signal="knee_hitzone_spawn" from="MusicSpawner" to="Player" method="_on_music_spawner_knee_hitzone_spawn"]
+[connection signal="knee_target_spawn" from="MusicSpawner" to="Player" method="_on_music_spawner_knee_target_spawn"]
 [connection signal="body_entered" from="MissZone" to="." method="_on_miss_zone_body_entered"]

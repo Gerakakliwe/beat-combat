@@ -162,10 +162,19 @@ func get_points_for_axis(velocity_component: float, base: float) -> int:
 	else:
 		return 0
 
-func _on_music_spawner_knee_hitzone_spawn(instance: Variant) -> void:
-	active_knee_hit_zone.append(instance)
-	print(active_knee_hit_zone)
-
 func _on_music_spawner_knee_target_spawn(instance: Variant) -> void:
 	knee_strikes.append(instance)
-	print(knee_strikes)
+
+func _on_music_spawner_knee_hitzone_spawn(instance: Variant) -> void:
+	active_knee_hit_zone.append(instance)
+	add_knee_pair(knee_strikes[-1], instance)
+	print("pairs " + str(knee_pairs))
+
+var knee_pairs: Array = []
+
+func add_knee_pair(target: Node3D, hitzone: Node3D) -> void:
+	knee_pairs.append({ "target": target, "hitzone": hitzone })
+
+func remove_knee_pair(index: int) -> void:
+	if index >= 0 and index < knee_pairs.size():
+		knee_pairs.remove_at(index)
