@@ -74,7 +74,7 @@ current = true
 [node name="MissZone" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 1.2)
 collision_layer = 0
-collision_mask = 6
+collision_mask = 14
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MissZone"]
 shape = SubResource("BoxShape3D_1n6uq")

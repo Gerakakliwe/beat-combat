@@ -78,6 +78,12 @@ func _physics_process(delta: float) -> void:
 				active_knee_hit_zone.remove_at(0)
 			reset_knee_strike_state()
 
+	for pair in knee_pairs:
+		if is_instance_valid(pair["target"]) and is_instance_valid(pair["hitzone"]):
+			draw_line(pair["target"].global_transform.origin, pair["hitzone"].global_transform.origin)
+			draw_line(pair["target"].global_transform.origin + Vector3(0.1, 0, 0), pair["hitzone"].global_transform.origin + Vector3(0.02, 0, 0))
+			draw_line(pair["target"].global_transform.origin + Vector3(-0.1, 0, 0), pair["hitzone"].global_transform.origin + Vector3(-0.02, 0, 0))
+
 func check_head_rays() -> void:
 	for ray in head_rays:
 		if ray.is_colliding():
@@ -90,9 +96,6 @@ func _on_right_hit_area_body_entered(body: Node3D) -> void:
 	_on_hit_area_body_entered(body, "right")
 
 func _on_hit_area_body_entered(body: Node3D, hand: String) -> void:
-	if body.is_in_group("knee_hit_zone"):
-		return
-
 	if body.is_in_group("knee_target"):
 		handle_knee_target_collision(body)
 		return
@@ -178,3 +181,23 @@ func add_knee_pair(target: Node3D, hitzone: Node3D) -> void:
 func remove_knee_pair(index: int) -> void:
 	if index >= 0 and index < knee_pairs.size():
 		knee_pairs.remove_at(index)
+
+func draw_line(pos1: Vector3, pos2: Vector3, color = Color.RED):
+	var mesh_instance := MeshInstance3D.new()
+	var immediate_mesh := ImmediateMesh.new()
+	var material := ORMMaterial3D.new()
+
+	mesh_instance.mesh = immediate_mesh
+	mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+
+	immediate_mesh.surface_begin(Mesh.PRIMITIVE_LINES, material)
+	immediate_mesh.surface_add_vertex(pos1)
+	immediate_mesh.surface_add_vertex(pos2)
+	immediate_mesh.surface_end()
+
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.albedo_color = color
+
+	get_tree().get_root().add_child(mesh_instance)
+	await get_tree().physics_frame
+	mesh_instance.queue_free()
