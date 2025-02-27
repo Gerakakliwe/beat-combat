@@ -5,15 +5,15 @@
 	},
 	{
 		"time": 4.888,
-		"scene": "knee_top_left_hit_zone"
+		"scene": "knee_top_left_hitzone"
 	},
 	{
 		"time": 7.552,
-		"scene": "knee_top_left"
+		"scene": "knee_top_right"
 	},
 	{
 		"time": 8.00,
-		"scene": "knee_top_left_hit_zone"
+		"scene": "knee_top_right_hitzone"
 	},
 	{
 		"time": 8.884,
