@@ -7,6 +7,9 @@ extends Node
 @onready var event_index = 0
 @onready var audio_player = $AudioStreamPlayer
 
+signal knee_target_spawn(instance)
+signal knee_hitzone_spawn(instance)
+
 var scenes = {
 	"straight_left": preload("res://blueprints/targets/straight_left_target.tscn"),
 	"straight_right": preload("res://blueprints/targets/straight_right_target.tscn"),
@@ -20,6 +23,14 @@ var scenes = {
 	"uppercut_right": preload("res://blueprints/targets/uppercut_right_target.tscn"),
 	"rope_slam_left": preload("res://blueprints/targets/rope_slam_left_target.tscn"),
 	"rope_slam_right": preload("res://blueprints/targets/rope_slam_right_target.tscn"),
+	"knee_top_left": preload("res://blueprints/targets/knee_top_left_target.tscn"),
+	"knee_top_left_hitzone": preload("res://blueprints/targets/knee_top_left_hit_zone.tscn"),
+	"knee_top_right": preload("res://blueprints/targets/knee_top_right_target.tscn"),
+	"knee_top_right_hitzone": preload("res://blueprints/targets/knee_top_right_hit_zone.tscn"),
+	"knee_diagonal_left": preload("res://blueprints/targets/knee_diagonal_left_target.tscn"),
+	"knee_diagonal_left_hitzone": preload("res://blueprints/targets/knee_diagonal_left_hit_zone.tscn"),
+	"knee_diagonal_right": preload("res://blueprints/targets/knee_diagonal_right_target.tscn"),
+	"knee_diagonal_right_hitzone": preload("res://blueprints/targets/knee_diagonal_right_hit_zone.tscn"),
 	"top_wall": preload("res://blueprints/obstacles/top_wall.tscn"),
 }
 
@@ -37,22 +48,27 @@ func spawn_event(scene_key):
 	var scene = scenes[scene_key]
 	var instance = scene.instantiate()
 	add_child(instance)
+	setup_instance_material(instance)
+	instance.apply_impulse(Vector3(0, 0, 2.5))
+	if instance.is_in_group("knee_target"):
+		emit_signal("knee_target_spawn", instance)
+	if instance.is_in_group("knee_hit_zone"):
+		emit_signal("knee_hitzone_spawn", instance)
+
+func setup_instance_material(instance: Node) -> void:
 	var mesh = instance.get_node("MeshInstance3D")
 	if mesh:
-		var mat = mesh.material_override
-		if not mat:
-			mat = StandardMaterial3D.new()
-		else:
-			mat = mat.duplicate()
-		if (instance.is_in_group("left_target")):
+		var mat = mesh.material_override if mesh.material_override else StandardMaterial3D.new()
+		# Duplicate the material to avoid modifying shared resources.
+		mat = mat.duplicate()
+		if instance.is_in_group("left_target"):
 			mat.albedo_color = left_target_color
-		elif (instance.is_in_group("right_target")):
+		elif instance.is_in_group("right_target"):
 			mat.albedo_color = right_target_color
 		else:
 			mat.albedo_color = obstacle_color
 			mat.blend_mode = 1
 		mesh.material_override = mat
-	instance.apply_impulse(Vector3(0, 0, 2.5))
 
 func load_spawn_events_from_json(file_path: String) -> Array:
 	if not FileAccess.file_exists(file_path):

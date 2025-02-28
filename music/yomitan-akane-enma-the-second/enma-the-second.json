@@ -1,43 +1,19 @@
 [
 	{
 		"time": 4.444,
-		"scene": "straight_left"
+		"scene": "knee_top_left"
 	},
 	{
 		"time": 4.888,
-		"scene": "straight_right"
-	},
-	{
-		"time": 5.332,
-		"scene": "hook_left"
-	},
-	{
-		"time": 5.776,
-		"scene": "hook_right"
-	},
-	{
-		"time": 6.22,
-		"scene": "uppercut_left"
-	},
-	{
-		"time": 6.664,
-		"scene": "uppercut_right"
-	},
-	{
-		"time": 7.108,
-		"scene": "straight_left"
+		"scene": "knee_top_left_hitzone"
 	},
 	{
 		"time": 7.552,
-		"scene": "straight_right"
+		"scene": "knee_top_right"
 	},
 	{
-		"time": 7.996,
-		"scene": "sky_punch_left"
-	},
-	{
-		"time": 8.44,
-		"scene": "sky_punch_right"
+		"time": 8.00,
+		"scene": "knee_top_right_hitzone"
 	},
 	{
 		"time": 8.884,
