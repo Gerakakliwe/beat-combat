@@ -14,22 +14,22 @@ script = ExtResource("1_tp42j")
 [node name="XRCamera3D" type="XRCamera3D" parent="."]
 
 [node name="RayMF" type="RayCast3D" parent="XRCamera3D"]
-target_position = Vector3(0, 0, -0.15)
+target_position = Vector3(0, 0, -0.1)
 collision_mask = 4
 collide_with_areas = true
 
 [node name="RayML" type="RayCast3D" parent="XRCamera3D"]
-target_position = Vector3(-0.2, 0, 0)
+target_position = Vector3(-0.1, 0, 0)
 collision_mask = 4
 collide_with_areas = true
 
 [node name="RayMR" type="RayCast3D" parent="XRCamera3D"]
-target_position = Vector3(0.2, 0, 0)
+target_position = Vector3(0.1, 0, 0)
 collision_mask = 4
 collide_with_areas = true
 
 [node name="RayTL" type="RayCast3D" parent="XRCamera3D"]
-target_position = Vector3(-0.2, 0.1, 0)
+target_position = Vector3(-0.1, 0.05, 0)
 collision_mask = 4
 collide_with_areas = true
 
@@ -39,7 +39,7 @@ collision_mask = 4
 collide_with_areas = true
 
 [node name="RayTR" type="RayCast3D" parent="XRCamera3D"]
-target_position = Vector3(0.2, 0.1, 0)
+target_position = Vector3(0.1, 0.05, 0)
 collision_mask = 4
 collide_with_areas = true
 

@@ -10,7 +10,7 @@ extends Node
 signal knee_target_spawn(instance)
 signal knee_hitzone_spawn(instance)
 
-var scenes = {
+var scenes: Dictionary = {
 	"straight_left": preload("res://blueprints/targets/straight_left_target.tscn"),
 	"straight_right": preload("res://blueprints/targets/straight_right_target.tscn"),
 	"straight_low_left": preload("res://blueprints/targets/straight_low_left_target.tscn"),
@@ -32,9 +32,11 @@ var scenes = {
 	"knee_diagonal_right": preload("res://blueprints/targets/knee_diagonal_right_target.tscn"),
 	"knee_diagonal_right_hitzone": preload("res://blueprints/targets/knee_diagonal_right_hit_zone.tscn"),
 	"top_wall": preload("res://blueprints/obstacles/top_wall.tscn"),
+	"left_wall": preload("res://blueprints/obstacles/left_angle_wall.tscn"),
+	"right_wall": preload("res://blueprints/obstacles/right_angle_wall.tscn"),
 }
 
-var spawn_events = load_spawn_events_from_json("res://music/yomitan-akane-enma-the-second/enma-the-second.json")
+var spawn_events = load_spawn_events_from_json("res://music/deco27-aitai-lians/DECO_27-Aitai-lians.json")
 
 func _physics_process(delta: float) -> void:
 	if event_index < spawn_events.size():
@@ -78,6 +80,8 @@ func load_spawn_events_from_json(file_path: String) -> Array:
 	var file = FileAccess.open(file_path, FileAccess.READ)
 	var json_text = file.get_as_text()
 	file.close()
+	
+	print(json_text)
 
 	var json = JSON.new()
 	var err = json.parse(json_text)

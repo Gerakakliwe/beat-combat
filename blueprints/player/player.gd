@@ -112,11 +112,11 @@ func _on_hit_area_body_entered(body: Node3D, hand: String) -> void:
 	var points_awarded: int = 0
 	if body.is_in_group(hand + "_target"):
 		if body.is_in_group("z_target"):
-			points_awarded = get_points_for_axis(abs(velocity_mean.z), 5.0)
+			points_awarded = get_points_for_axis(abs(velocity_mean.z), 3.0)
 		elif body.is_in_group("x_target"):
-			points_awarded = get_points_for_axis(abs(velocity_mean.x), 6.0)
+			points_awarded = get_points_for_axis(abs(velocity_mean.x), 4.0)
 		elif body.is_in_group("y_target"):
-			points_awarded = get_points_for_axis(abs(velocity_mean.y), 5.0)
+			points_awarded = get_points_for_axis(abs(velocity_mean.y), 4.0)
 		else:
 			points_awarded = 0
 
