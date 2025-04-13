@@ -1,11 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dtd5bbfv0d07m"]
+[gd_scene load_steps=2 format=3 uid="uid://dtd5bbfv0d07m"]
 
 [ext_resource type="Script" path="res://blueprints/spawner/music_spawner.gd" id="1_t4uub"]
-[ext_resource type="AudioStream" uid="uid://c5ynvhgpoeluh" path="res://music/deco27-aitai-lians/DECO_27-Aitai-lians.ogg" id="2_fx2tf"]
 
 [node name="MusicSpawner" type="Node"]
 script = ExtResource("1_t4uub")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_fx2tf")
-autoplay = true
+volume_db = -26.413
