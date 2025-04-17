@@ -38,8 +38,7 @@ var scenes: Dictionary = {
 }
 
 var spawn_events
-var rel_path = "res://projects/kiss-me-saurus.zip"
-var zip_path = ProjectSettings.globalize_path(rel_path)
+var zip_path = "res://projects/kiss-me-saurus.zip"
 
 func _ready():
 	extract_all_from_zip(zip_path)
@@ -101,28 +100,50 @@ func load_json(file_path: String) -> Array:
 
 func extract_all_from_zip(zip_path):
 	var reader = ZIPReader.new()
-	reader.open(zip_path)
+	var err = reader.open(zip_path)
+	if err != OK:
+		push_error("Failed to open ZIP file: " + zip_path)
+		return
 
-	var extract_dir = zip_path.get_base_dir()
-	print(extract_dir)
+	print("ZIP file opened successfully.")
+
+	var extract_dir = "user://unzipped_content"
+	print("Extract directory:", extract_dir)
+
+	DirAccess.make_dir_recursive_absolute(extract_dir)
 	var root_dir = DirAccess.open(extract_dir)
-
 	if root_dir == null:
-		DirAccess.make_dir_recursive_absolute(extract_dir)
-		root_dir = DirAccess.open(extract_dir)
+		push_error("Failed to access extract directory after creation.")
+		return
 
 	var files = reader.get_files()
+	print("Files found in ZIP:", files)
+
 	for file_path in files:
-		if file_path.ends_with(".json"):
-			Global.json_path = extract_dir.path_join(file_path)
-		elif file_path.ends_with(".ogg"):
-			Global.ogg_path = extract_dir.path_join(file_path)
+		print("Processing file:", file_path)
 
 		if file_path.ends_with("/"):
+			print("Creating directory:", file_path)
 			root_dir.make_dir_recursive(file_path)
 			continue
 
-		root_dir.make_dir_recursive(root_dir.get_current_dir().path_join(file_path).get_base_dir())
-		var file = FileAccess.open(root_dir.get_current_dir().path_join(file_path), FileAccess.WRITE)
+		var full_path = extract_dir.path_join(file_path)
+		var dir_path = full_path.get_base_dir()
+		print("Ensuring directory exists for file:", dir_path)
+		DirAccess.make_dir_recursive_absolute(dir_path)
+
+		var file = FileAccess.open(full_path, FileAccess.WRITE)
+		if file == null:
+			push_error("Failed to open file for writing: " + full_path)
+			continue
+
+		print("Writing file:", full_path)
 		var buffer = reader.read_file(file_path)
 		file.store_buffer(buffer)
+
+		if file_path.ends_with(".json"):
+			Global.json_path = full_path
+			print("Found JSON file. Global.json_path set to:", Global.json_path)
+		elif file_path.ends_with(".ogg"):
+			Global.ogg_path = full_path
+			print("Found OGG file. Global.ogg_path set to:", Global.ogg_path)
