@@ -1,9 +1,10 @@
 extends Node3D
 
-var xr_interface: XRInterface
-@onready var v_box_container: VBoxContainer = $Viewport2Din3D/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer
-@onready var start_button: Button = $Viewport2Din3D/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/StartButton
+@onready var start_button: Button = $Start/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/StartButton
+@onready var v_box_container: VBoxContainer = $Levels/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/ScrollContainer/VBoxContainer
 
+
+var xr_interface: XRInterface
 var map_buttons = []
 var selected_map_button = null
 
@@ -39,7 +40,7 @@ func add_map_button(zip_path: String):
 	var button = Button.new()
 	button.text = zip_path.get_file().replace(".zip", "").capitalize()
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	button.add_theme_font_size_override("font_size", 100)
+	button.add_theme_font_size_override("font_size", 120)
 	button.connect("pressed", Callable(self, "_on_map_button_pressed").bind(zip_path, button))
 	map_list_container.add_child(button)
 	map_buttons.append(button)

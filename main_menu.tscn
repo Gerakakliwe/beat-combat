@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://b0f63xdklb1p1"]
+[gd_scene load_steps=20 format=3 uid="uid://b0f63xdklb1p1"]
 
 [ext_resource type="Script" path="res://main_menu.gd" id="1_eadea"]
 [ext_resource type="PackedScene" uid="uid://cpaw4k42b182w" path="res://blueprints/player/player.tscn" id="2_no17v"]
 [ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="4_2oobi"]
-[ext_resource type="PackedScene" uid="uid://clt18lkj7mabe" path="res://game_ui.tscn" id="5_5br7a"]
+[ext_resource type="PackedScene" uid="uid://clt18lkj7mabe" path="res://levels_ui.tscn" id="5_5br7a"]
+[ext_resource type="PackedScene" uid="uid://dvchvib32ogc7" path="res://start_ui.tscn" id="5_vphdo"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_quvnu"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -32,19 +33,37 @@ size = Vector3(10, 0.1, 10)
 resource_local_to_scene = true
 size = Vector2(1280, 720)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_k5fyh"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_au4jd"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j2dsm"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i4cfh"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_k5fyh")
+albedo_texture = SubResource("ViewportTexture_au4jd")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pa0d2"]
 resource_local_to_scene = true
 size = Vector3(1280, 720, 0.02)
+
+[sub_resource type="QuadMesh" id="QuadMesh_704d8"]
+resource_local_to_scene = true
+size = Vector2(720, 720)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_a84o8"]
+viewport_path = NodePath("Viewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bk4si"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_a84o8")
+texture_filter = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_tpc2i"]
+resource_local_to_scene = true
+size = Vector3(720, 720, 0.02)
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_eadea")
@@ -71,50 +90,60 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.85)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.56, 0)
 current = true
 
-[node name="Viewport2Din3D" parent="." instance=ExtResource("4_2oobi")]
-transform = Transform3D(0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 0, 1.26266, -1)
+[node name="Levels" parent="." instance=ExtResource("4_2oobi")]
+transform = Transform3D(0.002, 0, 0, 0, 0.002, 0, 0, 0, 0.002, 0, 1.263, -2)
 screen_size = Vector2(1280, 720)
 viewport_size = Vector2(1280, 720)
 unshaded = true
 scene_properties_keys = PackedStringArray()
 
-[node name="Viewport" parent="Viewport2Din3D" index="0"]
+[node name="Viewport" parent="Levels" index="0"]
 size = Vector2i(1280, 720)
 
-[node name="CanvasLayer" parent="Viewport2Din3D/Viewport" index="0" instance=ExtResource("5_5br7a")]
+[node name="CanvasLayer" parent="Levels/Viewport" index="0" instance=ExtResource("5_5br7a")]
 
-[node name="StartButton" parent="Viewport2Din3D/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer" index="0"]
-disabled = true
-
-[node name="Screen" parent="Viewport2Din3D" index="1"]
+[node name="Screen" parent="Levels" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.992586, 0)
 mesh = SubResource("QuadMesh_0hadb")
-surface_material_override/0 = SubResource("StandardMaterial3D_j2dsm")
+surface_material_override/0 = SubResource("StandardMaterial3D_i4cfh")
 
-[node name="StaticBody3D" parent="Viewport2Din3D" index="2"]
+[node name="StaticBody3D" parent="Levels" index="2"]
 screen_size = Vector2(1280, 720)
 viewport_size = Vector2(1280, 720)
 
-[node name="CollisionShape3D" parent="Viewport2Din3D/StaticBody3D" index="0"]
+[node name="CollisionShape3D" parent="Levels/StaticBody3D" index="0"]
 shape = SubResource("BoxShape3D_pa0d2")
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="Start" parent="." instance=ExtResource("4_2oobi")]
+transform = Transform3D(0.00147278, 0, -0.00135311, 0, 0.002, 0, 0.00135311, 0, 0.00147278, 1.806, 1.263, -1.51291)
+screen_size = Vector2(720, 720)
+viewport_size = Vector2(720, 720)
+unshaded = true
+scene_properties_keys = PackedStringArray()
 
-[node name="Button" type="Button" parent="Control"]
-layout_mode = 0
-offset_right = 8.0
-offset_bottom = 8.0
+[node name="Viewport" parent="Start" index="0"]
+size = Vector2i(720, 720)
+
+[node name="CanvasLayer" parent="Start/Viewport" index="0" instance=ExtResource("5_vphdo")]
+
+[node name="Screen" parent="Start" index="1"]
+mesh = SubResource("QuadMesh_704d8")
+surface_material_override/0 = SubResource("StandardMaterial3D_bk4si")
+
+[node name="StaticBody3D" parent="Start" index="2"]
+screen_size = Vector2(720, 720)
+viewport_size = Vector2(720, 720)
+
+[node name="CollisionShape3D" parent="Start/StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_tpc2i")
 
 [connection signal="hit_velocity" from="Player" to="." method="_on_player_hit_velocity"]
 [connection signal="obstacle_hit" from="Player" to="." method="_on_player_obstacle_hit"]
 [connection signal="target_hit" from="Player" to="." method="_on_player_target_hit"]
 [connection signal="wrong_target_hit" from="Player" to="." method="_on_player_wrong_target_hit"]
-[connection signal="pressed" from="Viewport2Din3D/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="Control/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Start/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 
-[editable path="Viewport2Din3D"]
-[editable path="Viewport2Din3D/Viewport/CanvasLayer"]
+[editable path="Levels"]
+[editable path="Levels/Viewport/CanvasLayer"]
+[editable path="Start"]
+[editable path="Start/Viewport/CanvasLayer"]
