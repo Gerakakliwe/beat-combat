@@ -38,10 +38,9 @@ var scenes: Dictionary = {
 }
 
 var spawn_events
-var zip_path = "res://projects/kiss-me-saurus.zip"
 
 func _ready():
-	extract_all_from_zip(zip_path)
+	extract_all_from_zip(Global.zip_path)
 	spawn_events = load_json(Global.json_path)
 	audio_player.stream = AudioStreamOggVorbis.load_from_file(Global.ogg_path)
 	audio_player.play()

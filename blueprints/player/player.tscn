@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cpaw4k42b182w"]
+[gd_scene load_steps=7 format=3 uid="uid://cpaw4k42b182w"]
 
 [ext_resource type="PackedScene" uid="uid://ddsj74hpt1kgb" path="res://addons/godot-xr-tools/hands/scenes/highpoly/left_physics_tac_glove.tscn" id="1_1ocfq"]
 [ext_resource type="Script" path="res://blueprints/player/player.gd" id="1_tp42j"]
+[ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="3_gxifj"]
 [ext_resource type="PackedScene" uid="uid://b6xesntm4qeo5" path="res://addons/godot-xr-tools/hands/scenes/highpoly/right_physics_tac_glove.tscn" id="4_nv1st"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="5_iijdt"]
 
@@ -59,6 +60,11 @@ monitorable = false
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Controller_Left/LeftPhysicsHand/LeftHitArea"]
 shape = SubResource("BoxShape3D_ayngf")
 
+[node name="FunctionPointer" parent="Controller_Left" instance=ExtResource("3_gxifj")]
+show_laser = 2
+laser_length = 1
+show_target = true
+
 [node name="Controller_Right" type="XRController3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0)
 tracker = &"right_hand"
@@ -74,6 +80,11 @@ monitorable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Controller_Right/RightPhysicsHand/RightHitArea"]
 shape = SubResource("BoxShape3D_ayngf")
+
+[node name="FunctionPointer" parent="Controller_Right" instance=ExtResource("3_gxifj")]
+show_laser = 2
+laser_length = 1
+show_target = true
 
 [node name="PlayerBody" parent="." instance=ExtResource("5_iijdt")]
 collision_mask = 1
