@@ -33,14 +33,14 @@ size = Vector3(10, 0.1, 10)
 resource_local_to_scene = true
 size = Vector2(1280, 720)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_hrgic"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ksmr0"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_skqv1"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ytm5"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_hrgic")
+albedo_texture = SubResource("ViewportTexture_ksmr0")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pa0d2"]
@@ -51,14 +51,14 @@ size = Vector3(1280, 720, 0.02)
 resource_local_to_scene = true
 size = Vector2(720, 720)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_k0ods"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_744mo"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hegwl"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rtkhm"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_k0ods")
+albedo_texture = SubResource("ViewportTexture_744mo")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tpc2i"]
@@ -105,7 +105,7 @@ size = Vector2i(1280, 720)
 [node name="Screen" parent="Levels" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.992586, 0)
 mesh = SubResource("QuadMesh_0hadb")
-surface_material_override/0 = SubResource("StandardMaterial3D_skqv1")
+surface_material_override/0 = SubResource("StandardMaterial3D_8ytm5")
 
 [node name="StaticBody3D" parent="Levels" index="2"]
 screen_size = Vector2(1280, 720)
@@ -128,7 +128,7 @@ size = Vector2i(720, 720)
 
 [node name="Screen" parent="Start" index="1"]
 mesh = SubResource("QuadMesh_704d8")
-surface_material_override/0 = SubResource("StandardMaterial3D_hegwl")
+surface_material_override/0 = SubResource("StandardMaterial3D_rtkhm")
 
 [node name="StaticBody3D" parent="Start" index="2"]
 screen_size = Vector2(720, 720)
@@ -141,8 +141,10 @@ shape = SubResource("BoxShape3D_tpc2i")
 [connection signal="obstacle_hit" from="Player" to="." method="_on_player_obstacle_hit"]
 [connection signal="target_hit" from="Player" to="." method="_on_player_target_hit"]
 [connection signal="wrong_target_hit" from="Player" to="." method="_on_player_wrong_target_hit"]
+[connection signal="input_vector2_changed" from="Player/Controller_Left" to="." method="_on_controller_left_input_vector_2_changed"]
 [connection signal="pressed" from="Start/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 
+[editable path="Player"]
 [editable path="Levels"]
 [editable path="Levels/Viewport/CanvasLayer"]
 [editable path="Start"]

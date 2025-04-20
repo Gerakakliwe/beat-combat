@@ -2,7 +2,7 @@ extends Node3D
 
 @onready var start_button: Button = $Start/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/StartButton
 @onready var v_box_container: VBoxContainer = $Levels/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/ScrollContainer/VBoxContainer
-
+@onready var scroll_container: ScrollContainer = $Levels/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/ScrollContainer
 
 var xr_interface: XRInterface
 var map_buttons = []
@@ -41,6 +41,7 @@ func add_map_button(zip_path: String):
 	button.text = zip_path.get_file().replace(".zip", "").capitalize()
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	button.add_theme_font_size_override("font_size", 100)
+	button.focus_mode = Control.FOCUS_NONE
 	button.connect("pressed", Callable(self, "_on_map_button_pressed").bind(zip_path, button))
 	map_list_container.add_child(button)
 	map_buttons.append(button)
@@ -67,3 +68,10 @@ func _on_map_button_pressed(zip_path: String, pressed_button: Button):
 
 func _on_start_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://main.tscn")
+
+func _on_controller_left_input_vector_2_changed(name: String, value: Vector2) -> void:
+	var threshold = 0.1
+	if value.y > threshold: # up
+		scroll_container.scroll_vertical -= 20
+	elif value.y < -threshold: # down
+		scroll_container.scroll_vertical += 20
