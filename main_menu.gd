@@ -40,7 +40,7 @@ func add_map_button(zip_path: String):
 	var button = Button.new()
 	button.text = zip_path.get_file().replace(".zip", "").capitalize()
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	button.add_theme_font_size_override("font_size", 120)
+	button.add_theme_font_size_override("font_size", 100)
 	button.connect("pressed", Callable(self, "_on_map_button_pressed").bind(zip_path, button))
 	map_list_container.add_child(button)
 	map_buttons.append(button)

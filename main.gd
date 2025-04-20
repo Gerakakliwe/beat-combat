@@ -4,6 +4,7 @@ extends Node3D
 @onready var velocity_display: Label3D = $VelocityDisplay
 @onready var miss_zone: Area3D = $MissZone
 @onready var player: XROrigin3D = $Player
+@onready var pause_ui: Node3D = $PauseUI
 
 var xr_interface: XRInterface
 var points: int = 0
@@ -47,3 +48,29 @@ func _on_miss_zone_body_entered(body: Node3D) -> void:
 
 func update_results():
 	hit_counter.text = "Combo: " + str(combo) + "\nPoints: " + str(points)
+
+func _on_controller_left_button_pressed(name: String) -> void:
+	if name == "menu_button":
+		var paused = not get_tree().paused
+		get_tree().paused = paused
+		pause_ui.visible = paused
+
+		if paused:
+			pause_ui.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+		else:
+			pause_ui.process_mode = Node.PROCESS_MODE_DISABLED
+
+func _on_main_menu_pressed() -> void:
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://main_menu.tscn")
+
+func _on_restart_pressed() -> void:
+	get_tree().paused = false
+	pause_ui.visible = false
+	pause_ui.process_mode = Node.PROCESS_MODE_DISABLED
+	get_tree().change_scene_to_file("res://main.tscn")
+
+func _on_continue_pressed() -> void:
+	get_tree().paused = false
+	pause_ui.visible = false
+	pause_ui.process_mode = Node.PROCESS_MODE_DISABLED
