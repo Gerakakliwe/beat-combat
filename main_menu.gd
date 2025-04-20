@@ -75,3 +75,10 @@ func _on_controller_left_input_vector_2_changed(name: String, value: Vector2) ->
 		scroll_container.scroll_vertical -= 20
 	elif value.y < -threshold: # down
 		scroll_container.scroll_vertical += 20
+
+func _on_controller_right_input_vector_2_changed(name: String, value: Vector2) -> void:
+	var threshold = 0.1
+	if value.y > threshold: # up
+		scroll_container.scroll_vertical -= 20
+	elif value.y < -threshold: # down
+		scroll_container.scroll_vertical += 20

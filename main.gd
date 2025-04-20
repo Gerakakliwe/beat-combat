@@ -5,6 +5,7 @@ extends Node3D
 @onready var miss_zone: Area3D = $MissZone
 @onready var player: XROrigin3D = $Player
 @onready var pause_ui: Node3D = $PauseUI
+@onready var audio_stream_player: AudioStreamPlayer = $MusicSpawner/AudioStreamPlayer
 
 var xr_interface: XRInterface
 var points: int = 0
@@ -61,6 +62,7 @@ func _on_controller_left_button_pressed(name: String) -> void:
 			pause_ui.process_mode = Node.PROCESS_MODE_DISABLED
 
 func _on_main_menu_pressed() -> void:
+	audio_stream_player.playing = false
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://main_menu.tscn")
 

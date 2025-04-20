@@ -36,14 +36,14 @@ size = Vector3(2, 2, 0.1)
 resource_local_to_scene = true
 size = Vector2(1280, 200)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_x0t4g"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_06mgv"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4e2uh"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6ofaw"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_x0t4g")
+albedo_texture = SubResource("ViewportTexture_06mgv")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r1bqb"]
@@ -115,7 +115,7 @@ size = Vector2i(1280, 200)
 
 [node name="Screen" parent="PauseUI" index="1"]
 mesh = SubResource("QuadMesh_q6uhv")
-surface_material_override/0 = SubResource("StandardMaterial3D_4e2uh")
+surface_material_override/0 = SubResource("StandardMaterial3D_6ofaw")
 
 [node name="StaticBody3D" parent="PauseUI" index="2"]
 screen_size = Vector2(1280, 200)
@@ -137,5 +137,6 @@ shape = SubResource("BoxShape3D_r1bqb")
 [connection signal="pressed" from="PauseUI/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/Continue" to="." method="_on_continue_pressed"]
 
 [editable path="Player"]
+[editable path="MusicSpawner"]
 [editable path="PauseUI"]
 [editable path="PauseUI/Viewport/CanvasLayer"]

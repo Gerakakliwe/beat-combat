@@ -51,6 +51,7 @@ var active_knee_hit_zone: Array[Node3D] = []
 var HIP_LEVEL_Y: float = 1.3
 
 func _ready() -> void:
+	preload_lines()
 	left_velocity_tracker = SmoothedVelocity.new(controller_left.global_transform.origin, SMOOTHING_FRAMES)
 	right_velocity_tracker = SmoothedVelocity.new(controller_right.global_transform.origin, SMOOTHING_FRAMES)
 
@@ -201,3 +202,6 @@ func draw_line(pos1: Vector3, pos2: Vector3, color = Color.RED):
 	get_tree().get_root().add_child(mesh_instance)
 	await get_tree().physics_frame
 	mesh_instance.queue_free()
+
+func preload_lines():
+	draw_line(Vector3(1000, 1000, 1000), Vector3(1001, 1001, 1001), Color(0, 0, 0, 0))
