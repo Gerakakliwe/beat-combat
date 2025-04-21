@@ -9,12 +9,14 @@ var map_buttons = []
 var selected_map_button = null
 
 func _ready() -> void:
+	OS.request_permissions()
 	xr_interface = XRServer.find_interface("OpenXR")
 	if xr_interface and xr_interface.is_initialized():
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 		get_viewport().use_xr = true
 	
-	var zip_files = get_zip_files("res://projects")
+	#var zip_files = get_zip_files("res://projects")
+	var zip_files = get_zip_files("/sdcard/CustomMaps/")
 	for zip_path in zip_files:
 		add_map_button(zip_path)
 
