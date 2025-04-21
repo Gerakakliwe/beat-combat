@@ -1,8 +1,10 @@
 extends Node3D
 
 @onready var start_button: Button = $Start/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/StartButton
-@onready var v_box_container: VBoxContainer = $Levels/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/ScrollContainer/VBoxContainer
-@onready var scroll_container: ScrollContainer = $Levels/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/ScrollContainer
+@onready var scroll_container: ScrollContainer = $Levels/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/ScrollContainer
+@onready var levels_container: VBoxContainer = $Levels/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/ScrollContainer/LevelsContainer
+@onready var basic_tab: Button = $Levels/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/BasicTab
+@onready var custom_tab: Button = $Levels/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/CustomTab
 
 var xr_interface: XRInterface
 var map_buttons = []
@@ -14,9 +16,15 @@ func _ready() -> void:
 	if xr_interface and xr_interface.is_initialized():
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 		get_viewport().use_xr = true
-	
-	#var zip_files = get_zip_files("res://projects")
-	var zip_files = get_zip_files("/sdcard/CustomMaps/")
+
+	basic_tab.add_theme_color_override("font_color", Color.WHITE)
+	var highlight = StyleBoxFlat.new()
+	highlight.bg_color = Color("0077ff")
+	basic_tab.add_theme_stylebox_override("normal", highlight)
+	basic_tab.add_theme_stylebox_override("hover", highlight)
+	basic_tab.add_theme_stylebox_override("pressed", highlight)
+
+	var zip_files = get_zip_files("res://projects")
 	for zip_path in zip_files:
 		add_map_button(zip_path)
 
@@ -38,7 +46,7 @@ func get_zip_files(path: String) -> Array:
 	return zip_list
 
 func add_map_button(zip_path: String):
-	var map_list_container = v_box_container
+	var map_list_container = levels_container
 	var button = Button.new()
 	button.text = zip_path.get_file().replace(".zip", "").capitalize()
 	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -84,3 +92,56 @@ func _on_controller_right_input_vector_2_changed(name: String, value: Vector2) -
 		scroll_container.scroll_vertical -= 20
 	elif value.y < -threshold: # down
 		scroll_container.scroll_vertical += 20
+
+func _on_basic_tab_pressed() -> void:
+	map_buttons.clear()
+	for child in levels_container.get_children():
+		levels_container.remove_child(child)
+		child.queue_free()
+
+	custom_tab.remove_theme_color_override("font_color")
+	custom_tab.remove_theme_stylebox_override("normal")
+	custom_tab.remove_theme_stylebox_override("hover")
+	custom_tab.remove_theme_stylebox_override("pressed")
+
+	basic_tab.add_theme_color_override("font_color", Color.WHITE)
+	var highlight = StyleBoxFlat.new()
+	highlight.bg_color = Color("0077ff")
+	basic_tab.add_theme_stylebox_override("normal", highlight)
+	basic_tab.add_theme_stylebox_override("hover", highlight)
+	basic_tab.add_theme_stylebox_override("pressed", highlight)
+
+	var zip_files = get_zip_files("res://projects")
+	for zip_path in zip_files:
+		add_map_button(zip_path)
+
+func _on_custom_tab_pressed() -> void:
+	map_buttons.clear()
+	for child in levels_container.get_children():
+		levels_container.remove_child(child)
+		child.queue_free()
+
+	basic_tab.remove_theme_color_override("font_color")
+	basic_tab.remove_theme_stylebox_override("normal")
+	basic_tab.remove_theme_stylebox_override("hover")
+	basic_tab.remove_theme_stylebox_override("pressed")
+
+	custom_tab.add_theme_color_override("font_color", Color.WHITE)
+	var highlight = StyleBoxFlat.new()
+	highlight.bg_color = Color("0077ff")
+	custom_tab.add_theme_stylebox_override("normal", highlight)
+	custom_tab.add_theme_stylebox_override("hover", highlight)
+	custom_tab.add_theme_stylebox_override("pressed", highlight)
+
+	var zip_files = get_zip_files("/sdcard/CustomMaps/")
+	if zip_files.is_empty():
+		var label = Label.new()
+		label.text = "No custom levels were found.\nPlace your .zip archives into:\n/sdcard/CustomMaps/"
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		label.add_theme_font_size_override("font_size", 50)
+		levels_container.add_child(label)
+	else:
+		for zip_path in zip_files:
+			add_map_button(zip_path)
