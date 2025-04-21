@@ -17,6 +17,7 @@ gravity_scale = 0.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 layers = 7
+cast_shadow = 0
 mesh = SubResource("BoxMesh_ydcdh")
 surface_material_override/0 = SubResource("StandardMaterial3D_h6mgx")
 

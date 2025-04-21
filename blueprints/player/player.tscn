@@ -10,6 +10,7 @@
 size = Vector3(0.1, 0.1, 0.1)
 
 [node name="Player" type="XROrigin3D"]
+process_mode = 3
 script = ExtResource("1_tp42j")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="."]
