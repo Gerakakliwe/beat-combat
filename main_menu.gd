@@ -5,10 +5,15 @@ extends Node3D
 @onready var levels_container: VBoxContainer = $Levels/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/ScrollContainer/LevelsContainer
 @onready var basic_tab: Button = $Levels/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/BasicTab
 @onready var custom_tab: Button = $Levels/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/CustomTab
+@onready var loading_label: Label3D = $LoadingLabel
+@onready var levels: Node3D = $Levels
+@onready var start: Node3D = $Start
 
 var xr_interface: XRInterface
 var map_buttons = []
 var selected_map_button = null
+var is_loading = false
+var loading_started = false
 
 func _ready() -> void:
 	OS.request_permissions()
@@ -27,6 +32,16 @@ func _ready() -> void:
 	var zip_files = get_zip_files("res://projects")
 	for zip_path in zip_files:
 		add_map_button(zip_path)
+
+func _process(_delta: float) -> void:
+	if is_loading and not loading_started:
+		ResourceLoader.load_threaded_request("res://main.tscn")
+		loading_started = true
+	elif is_loading:
+		var status = ResourceLoader.load_threaded_get_status("res://main.tscn")
+		if status == ResourceLoader.THREAD_LOAD_LOADED:
+			var new_scene = ResourceLoader.load_threaded_get("res://main.tscn")
+			get_tree().change_scene_to_packed(new_scene)
 
 func get_zip_files(path: String) -> Array:
 	var dir = DirAccess.open(path)
@@ -77,7 +92,11 @@ func _on_map_button_pressed(zip_path: String, pressed_button: Button):
 	selected_map_button = pressed_button
 
 func _on_start_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://main.tscn")
+	is_loading = true
+	loading_started = false
+	levels.visible = false
+	start.visible = false
+	$LoadingLabel.visible = true
 
 func _on_controller_left_input_vector_2_changed(name: String, value: Vector2) -> void:
 	var threshold = 0.1
