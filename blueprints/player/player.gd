@@ -46,12 +46,10 @@ var right_velocity_mean: Vector3
 var pending_knee_target: Node3D = null    # When one controller first collides with a knee target.
 var active_knee_target: Node3D = null     # Once both controllers have touched the same knee target.
 var knee_strike_in_progress: bool = false
-var knee_strikes: Array[Node3D] = []
 var active_knee_hit_zone: Array[Node3D] = []
 var HIP_LEVEL_Y: float = 1.3
 
 func _ready() -> void:
-	preload_lines()
 	left_velocity_tracker = SmoothedVelocity.new(controller_left.global_transform.origin, SMOOTHING_FRAMES)
 	right_velocity_tracker = SmoothedVelocity.new(controller_right.global_transform.origin, SMOOTHING_FRAMES)
 
@@ -78,12 +76,6 @@ func _physics_process(delta: float) -> void:
 				active_knee_hit_zone[0].queue_free()
 				active_knee_hit_zone.remove_at(0)
 			reset_knee_strike_state()
-
-	for pair in knee_pairs:
-		if is_instance_valid(pair["target"]) and is_instance_valid(pair["hitzone"]):
-			draw_line(pair["target"].global_transform.origin, pair["hitzone"].global_transform.origin)
-			draw_line(pair["target"].global_transform.origin + Vector3(0.1, 0, 0), pair["hitzone"].global_transform.origin + Vector3(0.02, 0, 0))
-			draw_line(pair["target"].global_transform.origin + Vector3(-0.1, 0, 0), pair["hitzone"].global_transform.origin + Vector3(-0.02, 0, 0))
 
 func check_head_rays() -> void:
 	for ray in head_rays:
@@ -166,42 +158,5 @@ func get_points_for_axis(velocity_component: float, base: float) -> int:
 	else:
 		return 0
 
-func _on_music_spawner_knee_target_spawn(instance: Variant) -> void:
-	knee_strikes.append(instance)
-
 func _on_music_spawner_knee_hitzone_spawn(instance: Variant) -> void:
 	active_knee_hit_zone.append(instance)
-	add_knee_pair(knee_strikes[-1], instance)
-	print("pairs " + str(knee_pairs))
-
-var knee_pairs: Array = []
-
-func add_knee_pair(target: Node3D, hitzone: Node3D) -> void:
-	knee_pairs.append({ "target": target, "hitzone": hitzone })
-
-func remove_knee_pair(index: int) -> void:
-	if index >= 0 and index < knee_pairs.size():
-		knee_pairs.remove_at(index)
-
-func draw_line(pos1: Vector3, pos2: Vector3, color = Color.RED):
-	var mesh_instance := MeshInstance3D.new()
-	var immediate_mesh := ImmediateMesh.new()
-	var material := ORMMaterial3D.new()
-
-	mesh_instance.mesh = immediate_mesh
-	mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-
-	immediate_mesh.surface_begin(Mesh.PRIMITIVE_LINES, material)
-	immediate_mesh.surface_add_vertex(pos1)
-	immediate_mesh.surface_add_vertex(pos2)
-	immediate_mesh.surface_end()
-
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.albedo_color = color
-
-	get_tree().get_root().add_child(mesh_instance)
-	await get_tree().physics_frame
-	mesh_instance.queue_free()
-
-func preload_lines():
-	draw_line(Vector3(1000, 1000, 1000), Vector3(1001, 1001, 1001), Color(0, 0, 0, 0))

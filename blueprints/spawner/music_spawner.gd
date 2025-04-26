@@ -38,6 +38,8 @@ var scenes: Dictionary = {
 }
 
 var spawn_events
+var knee_pairs: Array = []
+var knee_strikes: Array[Node3D] = []
 
 func _ready():
 	extract_all_from_zip(Global.zip_path)
@@ -53,6 +55,12 @@ func _physics_process(delta: float) -> void:
 			spawn_event(spawn_events[event_index]["scene"])
 			event_index += 1
 
+	for pair in knee_pairs:
+		if is_instance_valid(pair["target"]) and is_instance_valid(pair["hitzone"]):
+			draw_line(pair["target"].global_transform.origin, pair["hitzone"].global_transform.origin)
+			draw_line(pair["target"].global_transform.origin + Vector3(0.1, 0, 0), pair["hitzone"].global_transform.origin + Vector3(0.02, 0, 0))
+			draw_line(pair["target"].global_transform.origin + Vector3(-0.1, 0, 0), pair["hitzone"].global_transform.origin + Vector3(-0.02, 0, 0))
+
 func spawn_event(scene_key):
 	var scene = scenes[scene_key]
 	var instance = scene.instantiate()
@@ -60,9 +68,38 @@ func spawn_event(scene_key):
 	setup_instance_material(instance)
 	instance.apply_impulse(Vector3(0, 0, 2.5))
 	if instance.is_in_group("knee_target"):
-		emit_signal("knee_target_spawn", instance)
+		knee_strikes.append(instance)
 	if instance.is_in_group("knee_hit_zone"):
 		emit_signal("knee_hitzone_spawn", instance)
+		add_knee_pair(knee_strikes[-1], instance)
+		print("pairs " + str(knee_pairs))
+
+func add_knee_pair(target: Node3D, hitzone: Node3D) -> void:
+	knee_pairs.append({ "target": target, "hitzone": hitzone })
+
+func remove_knee_pair(index: int) -> void:
+	if index >= 0 and index < knee_pairs.size():
+		knee_pairs.remove_at(index)
+
+func draw_line(pos1: Vector3, pos2: Vector3, color = Color.RED):
+	var mesh_instance := MeshInstance3D.new()
+	var immediate_mesh := ImmediateMesh.new()
+	var material := ORMMaterial3D.new()
+
+	mesh_instance.mesh = immediate_mesh
+	mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+
+	immediate_mesh.surface_begin(Mesh.PRIMITIVE_LINES, material)
+	immediate_mesh.surface_add_vertex(pos1)
+	immediate_mesh.surface_add_vertex(pos2)
+	immediate_mesh.surface_end()
+
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.albedo_color = color
+
+	get_tree().get_root().add_child(mesh_instance)
+	await get_tree().physics_frame
+	mesh_instance.queue_free()
 
 func setup_instance_material(instance: Node) -> void:
 	var mesh: MeshInstance3D = instance.get_node("MeshInstance3D")

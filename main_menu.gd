@@ -15,7 +15,16 @@ var selected_map_button = null
 var is_loading = false
 var loading_started = false
 
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		is_loading = true
+		loading_started = false
+		levels.visible = false
+		start.visible = false
+		$LoadingLabel.visible = true
+
 func _ready() -> void:
+	Global.zip_path = "res://projects/deco_aitai.zip"
 	OS.request_permissions()
 	xr_interface = XRServer.find_interface("OpenXR")
 	if xr_interface and xr_interface.is_initialized():
