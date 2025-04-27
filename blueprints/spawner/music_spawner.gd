@@ -40,12 +40,31 @@ var scenes: Dictionary = {
 var spawn_events
 var knee_pairs: Array = []
 var knee_strikes: Array[Node3D] = []
+var mesh_instance: MeshInstance3D
+var immediate_mesh: ImmediateMesh
+var material: ORMMaterial3D
 
 func _ready():
+	mesh_instance = MeshInstance3D.new()
+	immediate_mesh = ImmediateMesh.new()
+	material = ORMMaterial3D.new()
+	mesh_instance.mesh = immediate_mesh
+	mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	material.albedo_color = Color.RED
+	add_child(mesh_instance)
+	prewarm_mesh()
+
 	extract_all_from_zip(Global.zip_path)
 	spawn_events = load_json(Global.json_path)
 	audio_player.stream = AudioStreamOggVorbis.load_from_file(Global.ogg_path)
 	audio_player.play()
+
+func prewarm_mesh():
+	immediate_mesh.surface_begin(Mesh.PRIMITIVE_LINES, material)
+	immediate_mesh.surface_add_vertex(Vector3.ZERO)
+	immediate_mesh.surface_add_vertex(Vector3(0, 0.1, 0))
+	immediate_mesh.surface_end()
 
 func _physics_process(delta: float) -> void:
 	if event_index < spawn_events.size():
@@ -55,11 +74,16 @@ func _physics_process(delta: float) -> void:
 			spawn_event(spawn_events[event_index]["scene"])
 			event_index += 1
 
+	immediate_mesh.clear_surfaces()
+	immediate_mesh.surface_begin(Mesh.PRIMITIVE_LINES, material)
+
 	for pair in knee_pairs:
 		if is_instance_valid(pair["target"]) and is_instance_valid(pair["hitzone"]):
-			draw_line(pair["target"].global_transform.origin, pair["hitzone"].global_transform.origin)
-			draw_line(pair["target"].global_transform.origin + Vector3(0.1, 0, 0), pair["hitzone"].global_transform.origin + Vector3(0.02, 0, 0))
-			draw_line(pair["target"].global_transform.origin + Vector3(-0.1, 0, 0), pair["hitzone"].global_transform.origin + Vector3(-0.02, 0, 0))
+			var pos1 = pair["target"].global_transform.origin
+			var pos2 = pair["hitzone"].global_transform.origin
+			immediate_mesh.surface_add_vertex(pos1)
+			immediate_mesh.surface_add_vertex(pos2)
+	immediate_mesh.surface_end()
 
 func spawn_event(scene_key):
 	var scene = scenes[scene_key]
@@ -80,26 +104,6 @@ func add_knee_pair(target: Node3D, hitzone: Node3D) -> void:
 func remove_knee_pair(index: int) -> void:
 	if index >= 0 and index < knee_pairs.size():
 		knee_pairs.remove_at(index)
-
-func draw_line(pos1: Vector3, pos2: Vector3, color = Color.RED):
-	var mesh_instance := MeshInstance3D.new()
-	var immediate_mesh := ImmediateMesh.new()
-	var material := ORMMaterial3D.new()
-
-	mesh_instance.mesh = immediate_mesh
-	mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-
-	immediate_mesh.surface_begin(Mesh.PRIMITIVE_LINES, material)
-	immediate_mesh.surface_add_vertex(pos1)
-	immediate_mesh.surface_add_vertex(pos2)
-	immediate_mesh.surface_end()
-
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.albedo_color = color
-
-	get_tree().get_root().add_child(mesh_instance)
-	await get_tree().physics_frame
-	mesh_instance.queue_free()
 
 func setup_instance_material(instance: Node) -> void:
 	var mesh: MeshInstance3D = instance.get_node("MeshInstance3D")

@@ -33,14 +33,14 @@ size = Vector3(10, 0.1, 10)
 resource_local_to_scene = true
 size = Vector2(1280, 720)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_taxh7"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_61dy5"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tlvh0"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qaxar"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_taxh7")
+albedo_texture = SubResource("ViewportTexture_61dy5")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pa0d2"]
@@ -51,14 +51,14 @@ size = Vector3(1280, 720, 0.02)
 resource_local_to_scene = true
 size = Vector2(720, 720)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_5fu5y"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_5hwsx"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qis0x"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n87l3"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_5fu5y")
+albedo_texture = SubResource("ViewportTexture_5hwsx")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tpc2i"]
@@ -105,7 +105,7 @@ size = Vector2i(1280, 720)
 [node name="Screen" parent="Levels" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.992586, 0)
 mesh = SubResource("QuadMesh_0hadb")
-surface_material_override/0 = SubResource("StandardMaterial3D_tlvh0")
+surface_material_override/0 = SubResource("StandardMaterial3D_qaxar")
 
 [node name="StaticBody3D" parent="Levels" index="2"]
 screen_size = Vector2(1280, 720)
@@ -128,7 +128,7 @@ size = Vector2i(720, 720)
 
 [node name="Screen" parent="Start" index="1"]
 mesh = SubResource("QuadMesh_704d8")
-surface_material_override/0 = SubResource("StandardMaterial3D_qis0x")
+surface_material_override/0 = SubResource("StandardMaterial3D_n87l3")
 
 [node name="StaticBody3D" parent="Start" index="2"]
 screen_size = Vector2(720, 720)
