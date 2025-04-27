@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dtd5bbfv0d07m"]
 
-[ext_resource type="Script" path="res://blueprints/spawner/music_spawner.gd" id="1_t4uub"]
+[ext_resource type="Script" uid="uid://dtty4v3pyqtpo" path="res://blueprints/spawner/music_spawner.gd" id="1_t4uub"]
 
 [node name="MusicSpawner" type="Node"]
 script = ExtResource("1_t4uub")

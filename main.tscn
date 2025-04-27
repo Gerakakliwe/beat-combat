@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://c0oa86ykcul02"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_noafd"]
+[ext_resource type="Script" uid="uid://bqhqfx2vgjjri" path="res://main.gd" id="1_noafd"]
 [ext_resource type="PackedScene" uid="uid://cpaw4k42b182w" path="res://blueprints/player/player.tscn" id="3_ppgdl"]
 [ext_resource type="PackedScene" uid="uid://dtd5bbfv0d07m" path="res://blueprints/spawner/music_spawner.tscn" id="3_tukhk"]
 [ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="4_g6ba3"]

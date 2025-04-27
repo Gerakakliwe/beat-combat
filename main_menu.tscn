@@ -1,6 +1,6 @@
 [gd_scene load_steps=20 format=3 uid="uid://b0f63xdklb1p1"]
 
-[ext_resource type="Script" path="res://main_menu.gd" id="1_eadea"]
+[ext_resource type="Script" uid="uid://drnhd6itip63a" path="res://main_menu.gd" id="1_eadea"]
 [ext_resource type="PackedScene" uid="uid://cpaw4k42b182w" path="res://blueprints/player/player.tscn" id="2_no17v"]
 [ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="4_2oobi"]
 [ext_resource type="PackedScene" uid="uid://clt18lkj7mabe" path="res://levels_ui.tscn" id="5_5br7a"]
@@ -33,14 +33,14 @@ size = Vector3(10, 0.1, 10)
 resource_local_to_scene = true
 size = Vector2(1280, 720)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_61dy5"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_glbon"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qaxar"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glbon"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_61dy5")
+albedo_texture = SubResource("ViewportTexture_glbon")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pa0d2"]
@@ -51,14 +51,14 @@ size = Vector3(1280, 720, 0.02)
 resource_local_to_scene = true
 size = Vector2(720, 720)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_5hwsx"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_qe12f"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n87l3"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlkkf"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_5hwsx")
+albedo_texture = SubResource("ViewportTexture_qe12f")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tpc2i"]
@@ -105,7 +105,7 @@ size = Vector2i(1280, 720)
 [node name="Screen" parent="Levels" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.992586, 0)
 mesh = SubResource("QuadMesh_0hadb")
-surface_material_override/0 = SubResource("StandardMaterial3D_qaxar")
+surface_material_override/0 = SubResource("StandardMaterial3D_glbon")
 
 [node name="StaticBody3D" parent="Levels" index="2"]
 screen_size = Vector2(1280, 720)
@@ -128,7 +128,7 @@ size = Vector2i(720, 720)
 
 [node name="Screen" parent="Start" index="1"]
 mesh = SubResource("QuadMesh_704d8")
-surface_material_override/0 = SubResource("StandardMaterial3D_n87l3")
+surface_material_override/0 = SubResource("StandardMaterial3D_nlkkf")
 
 [node name="StaticBody3D" parent="Start" index="2"]
 screen_size = Vector2(720, 720)

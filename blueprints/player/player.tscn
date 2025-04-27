@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://cpaw4k42b182w"]
 
 [ext_resource type="PackedScene" uid="uid://ddsj74hpt1kgb" path="res://addons/godot-xr-tools/hands/scenes/highpoly/left_physics_tac_glove.tscn" id="1_1ocfq"]
-[ext_resource type="Script" path="res://blueprints/player/player.gd" id="1_tp42j"]
+[ext_resource type="Script" uid="uid://dpxr31w6nbu70" path="res://blueprints/player/player.gd" id="1_tp42j"]
 [ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="3_gxifj"]
 [ext_resource type="PackedScene" uid="uid://b6xesntm4qeo5" path="res://addons/godot-xr-tools/hands/scenes/highpoly/right_physics_tac_glove.tscn" id="4_nv1st"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="5_iijdt"]
