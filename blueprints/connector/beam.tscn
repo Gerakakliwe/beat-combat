@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://du3awo1cjaicv"]
+
+[ext_resource type="Script" uid="uid://x6goh6s5puoj" path="res://blueprints/connector/beam.gd" id="1_l0jbn"]
+[ext_resource type="Shader" uid="uid://b4rrgv2lgw45s" path="res://blueprints/connector/beam.gdshader" id="2_l0jbn"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l0jbn"]
+render_priority = 0
+shader = ExtResource("2_l0jbn")
+shader_parameter/beam_color = Color(1, 0.2, 0.6, 0.5)
+shader_parameter/glow_strength = 1.5
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_ipjrd"]
+material = SubResource("ShaderMaterial_l0jbn")
+top_radius = 0.05
+bottom_radius = 0.05
+
+[node name="Beam" type="Node3D"]
+script = ExtResource("1_l0jbn")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_ipjrd")

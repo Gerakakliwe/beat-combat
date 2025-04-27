@@ -40,31 +40,23 @@ var scenes: Dictionary = {
 var spawn_events
 var knee_pairs: Array = []
 var knee_strikes: Array[Node3D] = []
-var mesh_instance: MeshInstance3D
-var immediate_mesh: ImmediateMesh
-var material: ORMMaterial3D
+
+var beam_scene = preload("res://blueprints/connector/beam.tscn")
+var active_beams = []
 
 func _ready():
-	mesh_instance = MeshInstance3D.new()
-	immediate_mesh = ImmediateMesh.new()
-	material = ORMMaterial3D.new()
-	mesh_instance.mesh = immediate_mesh
-	mesh_instance.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	material.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
-	material.albedo_color = Color.RED
-	add_child(mesh_instance)
-	prewarm_mesh()
-
+	_warmup_beam()
 	extract_all_from_zip(Global.zip_path)
 	spawn_events = load_json(Global.json_path)
 	audio_player.stream = AudioStreamOggVorbis.load_from_file(Global.ogg_path)
 	audio_player.play()
 
-func prewarm_mesh():
-	immediate_mesh.surface_begin(Mesh.PRIMITIVE_LINES, material)
-	immediate_mesh.surface_add_vertex(Vector3.ZERO)
-	immediate_mesh.surface_add_vertex(Vector3(0, 0.1, 0))
-	immediate_mesh.surface_end()
+func _warmup_beam():
+	var dummy = beam_scene.instantiate()
+	dummy.visible = false
+	add_child(dummy)
+	await get_tree().process_frame
+	dummy.queue_free()
 
 func _physics_process(delta: float) -> void:
 	if event_index < spawn_events.size():
@@ -73,17 +65,6 @@ func _physics_process(delta: float) -> void:
 		while event_index < spawn_events.size() and current_time >= spawn_events[event_index]["time"] - 4:
 			spawn_event(spawn_events[event_index]["scene"])
 			event_index += 1
-
-	immediate_mesh.clear_surfaces()
-	immediate_mesh.surface_begin(Mesh.PRIMITIVE_LINES, material)
-
-	for pair in knee_pairs:
-		if is_instance_valid(pair["target"]) and is_instance_valid(pair["hitzone"]):
-			var pos1 = pair["target"].global_transform.origin
-			var pos2 = pair["hitzone"].global_transform.origin
-			immediate_mesh.surface_add_vertex(pos1)
-			immediate_mesh.surface_add_vertex(pos2)
-	immediate_mesh.surface_end()
 
 func spawn_event(scene_key):
 	var scene = scenes[scene_key]
@@ -100,6 +81,11 @@ func spawn_event(scene_key):
 
 func add_knee_pair(target: Node3D, hitzone: Node3D) -> void:
 	knee_pairs.append({ "target": target, "hitzone": hitzone })
+	var beam = beam_scene.instantiate()
+	beam.target_a = target
+	beam.target_b = hitzone
+	add_child(beam)
+	active_beams.append(beam)
 
 func remove_knee_pair(index: int) -> void:
 	if index >= 0 and index < knee_pairs.size():

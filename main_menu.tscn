@@ -36,7 +36,7 @@ size = Vector2(1280, 720)
 [sub_resource type="ViewportTexture" id="ViewportTexture_glbon"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glbon"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlkkf"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
@@ -54,7 +54,7 @@ size = Vector2(720, 720)
 [sub_resource type="ViewportTexture" id="ViewportTexture_qe12f"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlkkf"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8qtwp"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
@@ -105,7 +105,7 @@ size = Vector2i(1280, 720)
 [node name="Screen" parent="Levels" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.992586, 0)
 mesh = SubResource("QuadMesh_0hadb")
-surface_material_override/0 = SubResource("StandardMaterial3D_glbon")
+surface_material_override/0 = SubResource("StandardMaterial3D_nlkkf")
 
 [node name="StaticBody3D" parent="Levels" index="2"]
 screen_size = Vector2(1280, 720)
@@ -128,7 +128,7 @@ size = Vector2i(720, 720)
 
 [node name="Screen" parent="Start" index="1"]
 mesh = SubResource("QuadMesh_704d8")
-surface_material_override/0 = SubResource("StandardMaterial3D_nlkkf")
+surface_material_override/0 = SubResource("StandardMaterial3D_8qtwp")
 
 [node name="StaticBody3D" parent="Start" index="2"]
 screen_size = Vector2(720, 720)
