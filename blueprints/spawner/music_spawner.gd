@@ -44,12 +44,14 @@ var knee_strikes: Array[Node3D] = []
 var beam_scene = preload("res://blueprints/connector/beam.tscn")
 var active_beams = []
 
+var game_time := 0.0
+var song_started := false
+
 func _ready():
 	_warmup_beam()
 	extract_all_from_zip(Global.zip_path)
 	spawn_events = load_json(Global.json_path)
 	audio_player.stream = AudioStreamOggVorbis.load_from_file(Global.ogg_path)
-	audio_player.play()
 
 func _warmup_beam():
 	var dummy = beam_scene.instantiate()
@@ -59,10 +61,15 @@ func _warmup_beam():
 	dummy.queue_free()
 
 func _physics_process(delta: float) -> void:
+	game_time += delta
+	if not song_started and game_time >= 4 - 0.01:
+		var overshoot = game_time - 4
+		audio_player.play()
+		song_started = true
+
 	if event_index < spawn_events.size():
-		var current_time = audio_player.get_playback_position() + AudioServer.get_time_since_last_mix()
-		current_time -= AudioServer.get_output_latency()
-		while event_index < spawn_events.size() and current_time >= spawn_events[event_index]["time"] - 4:
+		var current_time = game_time
+		while event_index < spawn_events.size() and current_time >= spawn_events[event_index]["time"]:
 			spawn_event(spawn_events[event_index]["scene"])
 			event_index += 1
 
