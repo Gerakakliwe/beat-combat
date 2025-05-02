@@ -1,10 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://c0oa86ykcul02"]
+[gd_scene load_steps=22 format=3 uid="uid://c0oa86ykcul02"]
 
 [ext_resource type="Script" uid="uid://bqhqfx2vgjjri" path="res://main.gd" id="1_noafd"]
 [ext_resource type="PackedScene" uid="uid://cpaw4k42b182w" path="res://blueprints/player/player.tscn" id="3_ppgdl"]
 [ext_resource type="PackedScene" uid="uid://dtd5bbfv0d07m" path="res://blueprints/spawner/music_spawner.tscn" id="3_tukhk"]
 [ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="4_g6ba3"]
 [ext_resource type="PackedScene" uid="uid://14bdi8q14ial" path="res://pause_ui.tscn" id="5_q6x6n"]
+[ext_resource type="PackedScene" uid="uid://dfasq74rhsw05" path="res://VideoPlayer.tscn" id="6_7mycd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_quvnu"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -23,11 +24,11 @@ glow_enabled = true
 size = Vector3(10, 0.1, 10)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o1lgv"]
-albedo_color = Color(0.194349, 0.194349, 0.194349, 1)
+albedo_color = Color(0.111197, 0.111197, 0.111197, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_qsqcc"]
 material = SubResource("StandardMaterial3D_o1lgv")
-size = Vector3(10, 0.1, 10)
+size = Vector3(11.5, 0.1, 20)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_1n6uq"]
 size = Vector3(2, 2, 0.1)
@@ -36,19 +37,36 @@ size = Vector3(2, 2, 0.1)
 resource_local_to_scene = true
 size = Vector2(1280, 200)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_lquwl"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_7mycd"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7mycd"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_272bh"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_lquwl")
+albedo_texture = SubResource("ViewportTexture_7mycd")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r1bqb"]
 resource_local_to_scene = true
 size = Vector3(1280, 200, 0.02)
+
+[sub_resource type="QuadMesh" id="QuadMesh_5vw27"]
+resource_local_to_scene = true
+size = Vector2(1280, 720)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_5vw27"]
+viewport_path = NodePath("Viewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kek77"]
+transparency = 1
+cull_mode = 2
+albedo_texture = SubResource("ViewportTexture_5vw27")
+texture_filter = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_efxa6"]
+resource_local_to_scene = true
+size = Vector3(1280, 720, 0.02)
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_noafd")
@@ -57,7 +75,7 @@ script = ExtResource("1_noafd")
 environment = SubResource("Environment_blneg")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 3.62955, 0)
 shadow_enabled = true
 
 [node name="Ground" type="StaticBody3D" parent="."]
@@ -66,13 +84,14 @@ shadow_enabled = true
 shape = SubResource("BoxShape3D_oqy2u")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.85)
 mesh = SubResource("BoxMesh_qsqcc")
 
 [node name="Player" parent="." instance=ExtResource("3_ppgdl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.85)
 
 [node name="HitCounter" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 3.00821, -4)
+transform = Transform3D(0.82893, 0.144771, 0.540293, 0, 0.965926, -0.258819, -0.559352, 0.214543, 0.800685, -4.19168, 3.00821, -3.67505)
 text = "Combo: 0
 Points: 0"
 font_size = 48
@@ -115,7 +134,7 @@ size = Vector2i(1280, 200)
 
 [node name="Screen" parent="PauseUI" index="1"]
 mesh = SubResource("QuadMesh_q6uhv")
-surface_material_override/0 = SubResource("StandardMaterial3D_7mycd")
+surface_material_override/0 = SubResource("StandardMaterial3D_272bh")
 
 [node name="StaticBody3D" parent="PauseUI" index="2"]
 screen_size = Vector2(1280, 200)
@@ -124,6 +143,31 @@ viewport_size = Vector2(1280, 200)
 [node name="CollisionShape3D" parent="PauseUI/StaticBody3D" index="0"]
 shape = SubResource("BoxShape3D_r1bqb")
 
+[node name="VideoPlayer" parent="." instance=ExtResource("4_g6ba3")]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 3.5, -10)
+screen_size = Vector2(1280, 720)
+enabled = false
+collision_layer = 5242880
+viewport_size = Vector2(1280, 720)
+scene_properties_keys = PackedStringArray()
+
+[node name="Viewport" parent="VideoPlayer" index="0"]
+size = Vector2i(1280, 720)
+
+[node name="Video" parent="VideoPlayer/Viewport" index="0" instance=ExtResource("6_7mycd")]
+
+[node name="Screen" parent="VideoPlayer" index="1"]
+mesh = SubResource("QuadMesh_5vw27")
+surface_material_override/0 = SubResource("StandardMaterial3D_kek77")
+
+[node name="StaticBody3D" parent="VideoPlayer" index="2"]
+collision_layer = 5242880
+screen_size = Vector2(1280, 720)
+viewport_size = Vector2(1280, 720)
+
+[node name="CollisionShape3D" parent="VideoPlayer/StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_efxa6")
+
 [connection signal="hit_velocity" from="Player" to="." method="_on_player_hit_velocity"]
 [connection signal="obstacle_hit" from="Player" to="." method="_on_player_obstacle_hit"]
 [connection signal="target_hit" from="Player" to="." method="_on_player_target_hit"]
@@ -131,6 +175,7 @@ shape = SubResource("BoxShape3D_r1bqb")
 [connection signal="button_pressed" from="Player/Controller_Left" to="." method="_on_controller_left_button_pressed"]
 [connection signal="knee_hitzone_spawn" from="MusicSpawner" to="Player" method="_on_music_spawner_knee_hitzone_spawn"]
 [connection signal="knee_target_spawn" from="MusicSpawner" to="Player" method="_on_music_spawner_knee_target_spawn"]
+[connection signal="start_video" from="MusicSpawner" to="." method="_on_music_spawner_start_video"]
 [connection signal="body_entered" from="MissZone" to="." method="_on_miss_zone_body_entered"]
 [connection signal="pressed" from="PauseUI/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
 [connection signal="pressed" from="PauseUI/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/Restart" to="." method="_on_restart_pressed"]
@@ -140,3 +185,5 @@ shape = SubResource("BoxShape3D_r1bqb")
 [editable path="MusicSpawner"]
 [editable path="PauseUI"]
 [editable path="PauseUI/Viewport/CanvasLayer"]
+[editable path="VideoPlayer"]
+[editable path="VideoPlayer/Viewport/Video"]

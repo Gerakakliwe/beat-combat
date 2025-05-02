@@ -10,6 +10,7 @@ extends Node
 
 signal knee_target_spawn(instance)
 signal knee_hitzone_spawn(instance)
+signal start_video
 
 var scenes: Dictionary = {
 	"straight_left": preload("res://blueprints/targets/straight_left_target.tscn"),
@@ -64,6 +65,7 @@ func _physics_process(delta: float) -> void:
 	game_time += delta
 	if not song_started and game_time >= 4 - 0.01:
 		var overshoot = game_time - 4
+		emit_signal("start_video")
 		audio_player.play()
 		song_started = true
 
@@ -180,3 +182,6 @@ func extract_all_from_zip(zip_path):
 		elif file_path.ends_with(".ogg"):
 			Global.ogg_path = full_path
 			print("Found OGG file. Global.ogg_path set to:", Global.ogg_path)
+		elif file_path.ends_with(".ogv"):
+			Global.ogv_path = full_path
+			print("Found OGV file. Global.ogv_path set to:", Global.ogv_path)

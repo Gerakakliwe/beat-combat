@@ -6,4 +6,4 @@
 script = ExtResource("1_t4uub")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-volume_db = -20.845
+volume_db = -21.46

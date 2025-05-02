@@ -6,12 +6,16 @@ extends Node3D
 @onready var player: XROrigin3D = $Player
 @onready var pause_ui: Node3D = $PauseUI
 @onready var audio_stream_player: AudioStreamPlayer = $MusicSpawner/AudioStreamPlayer
+@onready var video_stream_player: VideoStreamPlayer = $VideoPlayer/Viewport/Video/VideoStreamPlayer
 
 var xr_interface: XRInterface
 var points: int = 0
 var combo: int = 0
 
 func _ready() -> void:
+	var video_stream = VideoStreamTheora.new()
+	video_stream.file = Global.ogv_path
+	video_stream_player.stream = video_stream
 	xr_interface = XRServer.find_interface("OpenXR")
 	if xr_interface and xr_interface.is_initialized():
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
@@ -76,3 +80,6 @@ func _on_continue_pressed() -> void:
 	get_tree().paused = false
 	pause_ui.visible = false
 	pause_ui.process_mode = Node.PROCESS_MODE_DISABLED
+
+func _on_music_spawner_start_video() -> void:
+	video_stream_player.play()
