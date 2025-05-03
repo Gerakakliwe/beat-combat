@@ -80,6 +80,8 @@ func _physics_process(delta: float) -> void:
 func check_head_rays() -> void:
 	for ray in head_rays:
 		if ray.is_colliding():
+			controller_left.trigger_haptic_pulse("haptic", 0.0, 0.8, 0.1, 0.0)
+			controller_right.trigger_haptic_pulse("haptic", 0.0, 0.8, 0.1, 0.0)
 			emit_signal("obstacle_hit")
 
 func _on_left_hit_area_body_entered(body: Node3D) -> void:
@@ -130,6 +132,8 @@ func handle_knee_target_collision(body: Node3D) -> void:
 		# If the pending knee target is the same as this body and the knee strike isn’t already active,
 		# then both controllers have touched it—start the knee strike.
 		if pending_knee_target == body and not knee_strike_in_progress:
+			controller_left.trigger_haptic_pulse("haptic", 0.0, 0.8, 0.1, 0.0)
+			controller_right.trigger_haptic_pulse("haptic", 0.0, 0.8, 0.1, 0.0)
 			active_knee_target = body
 			knee_strike_in_progress = true
 			body.get_parent().remove_child(body)

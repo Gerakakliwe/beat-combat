@@ -24,7 +24,7 @@ func _input(event):
 		$LoadingLabel.visible = true
 
 func _ready() -> void:
-	Global.zip_path = "res://projects/monitoring1080.zip"
+	Global.zip_path = "res://projects/cinderella.zip"
 	OS.request_permissions()
 	xr_interface = XRServer.find_interface("OpenXR")
 	if xr_interface and xr_interface.is_initialized():
