@@ -65,9 +65,9 @@ func _physics_process(delta: float) -> void:
 	game_time += delta
 	if not song_started and game_time >= 4 - 0.01:
 		var overshoot = game_time - 4
-		emit_signal("start_video")
 		audio_player.play()
 		song_started = true
+		emit_signal("start_video")
 
 	if event_index < spawn_events.size():
 		var current_time = game_time
