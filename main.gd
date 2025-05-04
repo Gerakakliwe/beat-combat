@@ -21,9 +21,11 @@ func _ready() -> void:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 		get_viewport().use_xr = true
 
+	player.global_position = Vector3(0, 0, Global.player_reach * 0.01)
+
 func _on_player_target_hit(points_awarded: int) -> void:
 	points += points_awarded
-	combo +=1
+	combo += 1
 	update_results()
 
 func _on_player_obstacle_hit() -> void:

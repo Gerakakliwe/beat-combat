@@ -9,8 +9,12 @@ extends Node3D
 @onready var levels: Node3D = $Levels
 @onready var start: Node3D = $Start
 @onready var settings: Node3D = $Settings
-@onready var height_slider: HSlider = $Settings/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/HeightSlider
-@onready var current_height: Label = $Settings/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/CurrentHeight
+
+@onready var height_slider: HSlider = $Settings/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/HeightContainer/HeightSlider
+@onready var current_height: Label = $Settings/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/HeightContainer/CurrentHeight
+
+@onready var reach_slider: HSlider = $Settings/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/ReachContainer/ReachSlider
+@onready var current_reach: Label = $Settings/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/ReachContainer/CurrentReach
 
 var xr_interface: XRInterface
 var map_buttons = []
@@ -25,7 +29,8 @@ func _input(event):
 		levels.visible = false
 		start.visible = false
 		settings.visible = false
-		Global.player_height = height_slider.value
+		Global.player_height = int(height_slider.value)
+		Global.player_reach = int(reach_slider.value)
 		$LoadingLabel.visible = true
 
 func _ready() -> void:
@@ -47,6 +52,9 @@ func _ready() -> void:
 	for zip_path in zip_files:
 		add_map_button(zip_path)
 
+	height_slider.value = Global.player_height
+	reach_slider.value = Global.player_reach
+
 func _process(_delta: float) -> void:
 	if is_loading and not loading_started:
 		ResourceLoader.load_threaded_request("res://main.tscn")
@@ -63,6 +71,8 @@ func _process(_delta: float) -> void:
 	var inches = int(round(fmod(total_inches, 12)))
 
 	current_height.text = str(int(cm)) + " cm (" + str(feet) + "'" + str(inches) + "\")"
+
+	current_reach.text = str(int(reach_slider.value))
 
 func get_zip_files(path: String) -> Array:
 	var dir = DirAccess.open(path)
@@ -118,6 +128,8 @@ func _on_start_button_pressed() -> void:
 	levels.visible = false
 	start.visible = false
 	settings.visible = false
+	Global.player_height = int(height_slider.value)
+	Global.player_reach = int(reach_slider.value)
 	$LoadingLabel.visible = true
 
 func _on_controller_left_input_vector_2_changed(name: String, value: Vector2) -> void:
