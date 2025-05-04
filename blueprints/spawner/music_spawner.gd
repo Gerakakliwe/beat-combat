@@ -48,6 +48,8 @@ var active_beams = []
 var game_time := 0.0
 var song_started := false
 
+var base_height = 185.0
+
 func _ready():
 	_warmup_beam()
 	extract_all_from_zip(Global.zip_path)
@@ -81,6 +83,12 @@ func spawn_event(scene_key):
 	add_child(instance)
 	setup_instance_material(instance)
 	instance.apply_impulse(Vector3(0, 0, 2.5))
+
+	var height_ratio = Global.player_height / base_height
+	var current_transform = instance.global_transform
+	current_transform.origin.y *= height_ratio
+	instance.global_transform = current_transform
+
 	if instance.is_in_group("knee_target"):
 		knee_strikes.append(instance)
 	if instance.is_in_group("knee_hit_zone"):

@@ -70,7 +70,7 @@ size = Vector2(1280, 720)
 [sub_resource type="ViewportTexture" id="ViewportTexture_kek77"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_272bh"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4c57u"]
 transparency = 1
 cull_mode = 2
 albedo_texture = SubResource("ViewportTexture_kek77")
@@ -152,7 +152,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.65, 5.05)
 shape = SubResource("BoxShape3D_272bh")
 
 [node name="Player" parent="." instance=ExtResource("3_ppgdl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.85)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.7)
 
 [node name="HitCounter" type="Label3D" parent="."]
 transform = Transform3D(0.82893, 0.144771, 0.540293, 0, 0.965926, -0.258819, -0.559352, 0.214543, 0.800685, -3.62242, 3.00821, -3.67505)
@@ -222,7 +222,7 @@ size = Vector2i(1280, 720)
 
 [node name="Screen" parent="VideoPlayer" index="1"]
 mesh = SubResource("QuadMesh_5vw27")
-surface_material_override/0 = SubResource("StandardMaterial3D_272bh")
+surface_material_override/0 = SubResource("StandardMaterial3D_4c57u")
 
 [node name="StaticBody3D" parent="VideoPlayer" index="2"]
 collision_layer = 5242880

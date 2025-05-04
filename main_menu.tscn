@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://b0f63xdklb1p1"]
+[gd_scene load_steps=29 format=3 uid="uid://b0f63xdklb1p1"]
 
 [ext_resource type="Script" uid="uid://drnhd6itip63a" path="res://main_menu.gd" id="1_eadea"]
 [ext_resource type="PackedScene" uid="uid://cpaw4k42b182w" path="res://blueprints/player/player.tscn" id="2_no17v"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://clt18lkj7mabe" path="res://levels_ui.tscn" id="5_5br7a"]
 [ext_resource type="PackedScene" uid="uid://dvchvib32ogc7" path="res://start_ui.tscn" id="5_vphdo"]
 [ext_resource type="Material" uid="uid://ctj6ep3bxskjx" path="res://LevelMaterial.tres" id="6_nlkkf"]
+[ext_resource type="PackedScene" uid="uid://dxel208tx4ixc" path="res://settings_ui.tscn" id="6_qe12f"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_quvnu"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -24,14 +25,14 @@ glow_enabled = true
 resource_local_to_scene = true
 size = Vector2(1280, 720)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_glbon"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_qe12f"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nlkkf"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8qtwp"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_glbon")
+albedo_texture = SubResource("ViewportTexture_qe12f")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pa0d2"]
@@ -42,19 +43,29 @@ size = Vector3(1280, 720, 0.02)
 resource_local_to_scene = true
 size = Vector2(720, 720)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_qe12f"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_dy7ct"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qe12f"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0o4t1"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_qe12f")
+albedo_texture = SubResource("ViewportTexture_dy7ct")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tpc2i"]
 resource_local_to_scene = true
 size = Vector3(720, 720, 0.02)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_0k4wn"]
+viewport_path = NodePath("Viewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j5v2v"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_0k4wn")
+texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8qtwp"]
 size = Vector3(12.8, 0.1, 15)
@@ -117,7 +128,7 @@ size = Vector2i(1280, 720)
 [node name="Screen" parent="Levels" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.992586, 0)
 mesh = SubResource("QuadMesh_0hadb")
-surface_material_override/0 = SubResource("StandardMaterial3D_nlkkf")
+surface_material_override/0 = SubResource("StandardMaterial3D_8qtwp")
 
 [node name="StaticBody3D" parent="Levels" index="2"]
 screen_size = Vector2(1280, 720)
@@ -140,13 +151,36 @@ size = Vector2i(720, 720)
 
 [node name="Screen" parent="Start" index="1"]
 mesh = SubResource("QuadMesh_704d8")
-surface_material_override/0 = SubResource("StandardMaterial3D_qe12f")
+surface_material_override/0 = SubResource("StandardMaterial3D_0o4t1")
 
 [node name="StaticBody3D" parent="Start" index="2"]
 screen_size = Vector2(720, 720)
 viewport_size = Vector2(720, 720)
 
 [node name="CollisionShape3D" parent="Start/StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_tpc2i")
+
+[node name="Settings" parent="." instance=ExtResource("4_2oobi")]
+transform = Transform3D(0.00147219, 0, 0.00135375, 0, 0.002, 0, -0.00135375, 0, 0.00147219, -1.806, 1.263, -1.513)
+screen_size = Vector2(720, 720)
+viewport_size = Vector2(720, 720)
+unshaded = true
+scene_properties_keys = PackedStringArray()
+
+[node name="Viewport" parent="Settings" index="0"]
+size = Vector2i(720, 720)
+
+[node name="CanvasLayer" parent="Settings/Viewport" index="0" instance=ExtResource("6_qe12f")]
+
+[node name="Screen" parent="Settings" index="1"]
+mesh = SubResource("QuadMesh_704d8")
+surface_material_override/0 = SubResource("StandardMaterial3D_j5v2v")
+
+[node name="StaticBody3D" parent="Settings" index="2"]
+screen_size = Vector2(720, 720)
+viewport_size = Vector2(720, 720)
+
+[node name="CollisionShape3D" parent="Settings/StaticBody3D" index="0"]
 shape = SubResource("BoxShape3D_tpc2i")
 
 [node name="LoadingLabel" type="Label3D" parent="."]
@@ -230,3 +264,5 @@ shape = SubResource("BoxShape3D_w44g7")
 [editable path="Levels/Viewport/CanvasLayer"]
 [editable path="Start"]
 [editable path="Start/Viewport/CanvasLayer"]
+[editable path="Settings"]
+[editable path="Settings/Viewport/CanvasLayer"]

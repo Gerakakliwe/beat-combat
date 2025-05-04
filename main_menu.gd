@@ -8,6 +8,9 @@ extends Node3D
 @onready var loading_label: Label3D = $LoadingLabel
 @onready var levels: Node3D = $Levels
 @onready var start: Node3D = $Start
+@onready var settings: Node3D = $Settings
+@onready var height_slider: HSlider = $Settings/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/HeightSlider
+@onready var current_height: Label = $Settings/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/CurrentHeight
 
 var xr_interface: XRInterface
 var map_buttons = []
@@ -21,10 +24,12 @@ func _input(event):
 		loading_started = false
 		levels.visible = false
 		start.visible = false
+		settings.visible = false
+		Global.player_height = height_slider.value
 		$LoadingLabel.visible = true
 
 func _ready() -> void:
-	Global.zip_path = "res://projects/cinderella.zip"
+	Global.zip_path = "res://projects/daidai.zip"
 	OS.request_permissions()
 	xr_interface = XRServer.find_interface("OpenXR")
 	if xr_interface and xr_interface.is_initialized():
@@ -51,6 +56,13 @@ func _process(_delta: float) -> void:
 		if status == ResourceLoader.THREAD_LOAD_LOADED:
 			var new_scene = ResourceLoader.load_threaded_get("res://main.tscn")
 			get_tree().change_scene_to_packed(new_scene)
+
+	var cm = height_slider.value
+	var total_inches = cm / 2.54
+	var feet = int(total_inches / 12)
+	var inches = int(round(fmod(total_inches, 12)))
+
+	current_height.text = str(int(cm)) + " cm (" + str(feet) + "'" + str(inches) + "\")"
 
 func get_zip_files(path: String) -> Array:
 	var dir = DirAccess.open(path)
@@ -105,6 +117,7 @@ func _on_start_button_pressed() -> void:
 	loading_started = false
 	levels.visible = false
 	start.visible = false
+	settings.visible = false
 	$LoadingLabel.visible = true
 
 func _on_controller_left_input_vector_2_changed(name: String, value: Vector2) -> void:

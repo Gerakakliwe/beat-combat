@@ -58,5 +58,5 @@ size_flags_vertical = 3
 [node name="LevelsContainer" type="VBoxContainer" parent="Control/ColorRect/MarginContainer/VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
+size_flags_vertical = 2
 alignment = 1
