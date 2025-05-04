@@ -34,6 +34,7 @@ func _input(event):
 		$LoadingLabel.visible = true
 
 func _ready() -> void:
+	Global.load_settings()
 	Global.zip_path = "res://projects/daidai.zip"
 	OS.request_permissions()
 	xr_interface = XRServer.find_interface("OpenXR")
@@ -128,8 +129,6 @@ func _on_start_button_pressed() -> void:
 	levels.visible = false
 	start.visible = false
 	settings.visible = false
-	Global.player_height = int(height_slider.value)
-	Global.player_reach = int(reach_slider.value)
 	$LoadingLabel.visible = true
 
 func _on_controller_left_input_vector_2_changed(name: String, value: Vector2) -> void:
@@ -198,3 +197,12 @@ func _on_custom_tab_pressed() -> void:
 	else:
 		for zip_path in zip_files:
 			add_map_button(zip_path)
+
+
+func _on_reach_slider_value_changed(value: float) -> void:
+	Global.player_reach = int(reach_slider.value)
+	Global.save_settings()
+
+func _on_height_slider_value_changed(value: float) -> void:
+	Global.player_height = int(height_slider.value)
+	Global.save_settings()

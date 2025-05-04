@@ -70,7 +70,7 @@ size = Vector2(1280, 720)
 [sub_resource type="ViewportTexture" id="ViewportTexture_kek77"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4c57u"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_272bh"]
 transparency = 1
 cull_mode = 2
 albedo_texture = SubResource("ViewportTexture_kek77")
@@ -222,7 +222,7 @@ size = Vector2i(1280, 720)
 
 [node name="Screen" parent="VideoPlayer" index="1"]
 mesh = SubResource("QuadMesh_5vw27")
-surface_material_override/0 = SubResource("StandardMaterial3D_4c57u")
+surface_material_override/0 = SubResource("StandardMaterial3D_272bh")
 
 [node name="StaticBody3D" parent="VideoPlayer" index="2"]
 collision_layer = 5242880
