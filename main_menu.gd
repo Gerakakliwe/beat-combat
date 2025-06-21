@@ -35,7 +35,7 @@ func _input(event):
 
 func _ready() -> void:
 	Global.load_settings()
-	Global.zip_path = "res://projects/daidai.zip"
+	Global.zip_path = "res://projects/KissMeSaurus.zip"
 	OS.request_permissions()
 	xr_interface = XRServer.find_interface("OpenXR")
 	if xr_interface and xr_interface.is_initialized():

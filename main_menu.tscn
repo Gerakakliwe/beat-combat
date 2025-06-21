@@ -28,7 +28,7 @@ size = Vector2(1280, 720)
 [sub_resource type="ViewportTexture" id="ViewportTexture_qe12f"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qe12f"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8qtwp"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
@@ -46,7 +46,7 @@ size = Vector2(720, 720)
 [sub_resource type="ViewportTexture" id="ViewportTexture_dy7ct"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8qtwp"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0o4t1"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
@@ -60,7 +60,7 @@ size = Vector3(720, 720, 0.02)
 [sub_resource type="ViewportTexture" id="ViewportTexture_0k4wn"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dy7ct"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j5v2v"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
@@ -128,7 +128,7 @@ size = Vector2i(1280, 720)
 [node name="Screen" parent="Levels" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.992586, 0)
 mesh = SubResource("QuadMesh_0hadb")
-surface_material_override/0 = SubResource("StandardMaterial3D_qe12f")
+surface_material_override/0 = SubResource("StandardMaterial3D_8qtwp")
 
 [node name="StaticBody3D" parent="Levels" index="2"]
 screen_size = Vector2(1280, 720)
@@ -151,7 +151,7 @@ size = Vector2i(720, 720)
 
 [node name="Screen" parent="Start" index="1"]
 mesh = SubResource("QuadMesh_704d8")
-surface_material_override/0 = SubResource("StandardMaterial3D_8qtwp")
+surface_material_override/0 = SubResource("StandardMaterial3D_0o4t1")
 
 [node name="StaticBody3D" parent="Start" index="2"]
 screen_size = Vector2(720, 720)
@@ -174,7 +174,7 @@ size = Vector2i(720, 720)
 
 [node name="Screen" parent="Settings" index="1"]
 mesh = SubResource("QuadMesh_704d8")
-surface_material_override/0 = SubResource("StandardMaterial3D_dy7ct")
+surface_material_override/0 = SubResource("StandardMaterial3D_j5v2v")
 
 [node name="StaticBody3D" parent="Settings" index="2"]
 screen_size = Vector2(720, 720)

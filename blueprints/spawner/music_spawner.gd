@@ -87,7 +87,6 @@ func spawn_event(scene_key):
 	var height_ratio = Global.player_height / base_height
 	var current_transform = instance.global_transform
 	current_transform.origin.y *= height_ratio
-	print(current_transform.origin.y)
 	instance.global_transform = current_transform
 
 	if instance.is_in_group("knee_target"):

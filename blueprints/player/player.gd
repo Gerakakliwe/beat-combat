@@ -95,8 +95,6 @@ func _on_hit_area_body_entered(body: Node3D, hand: String) -> void:
 		handle_knee_target_collision(body)
 		return
 
-	play_hit_sound(body.global_position, 0.5)
-
 	var velocity_mean: Vector3
 	var controller: XRController3D
 	if hand == "left":
@@ -126,24 +124,6 @@ func _on_hit_area_body_entered(body: Node3D, hand: String) -> void:
 			emit_signal("wrong_target_hit")
 	else:
 		emit_signal("wrong_target_hit")
-
-
-func play_hit_sound(position: Vector3, volume: float = 1.0) -> void:
-	var audio_player = AudioStreamPlayer3D.new()
-	audio_player.stream = preload("res://sounds/punch.ogg")
-	audio_player.transform.origin = position
-	audio_player.autoplay = false
-	audio_player.volume_db = linear_to_db(clamp(volume, 0.0, 1.0))
-	audio_player.unit_size = 1.0
-	get_tree().current_scene.add_child(audio_player)
-	audio_player.play()
-
-	var timer = Timer.new()
-	timer.wait_time = audio_player.stream.get_length()
-	timer.one_shot = true
-	timer.connect("timeout", Callable(audio_player, "queue_free"))
-	audio_player.add_child(timer)
-	timer.start()
 
 func handle_knee_target_collision(body: Node3D) -> void:
 	if pending_knee_target == null:
