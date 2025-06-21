@@ -23,7 +23,19 @@ var is_loading = false
 var loading_started = false
 
 func _input(event):
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("ui_page_up"):
+		Global.zip_path = "res://projects/zako.zip"
+		is_loading = true
+		loading_started = false
+		levels.visible = false
+		start.visible = false
+		settings.visible = false
+		Global.player_height = int(height_slider.value)
+		Global.player_reach = int(reach_slider.value)
+		$LoadingLabel.visible = true
+
+	if event.is_action_pressed("ui_page_down"):
+		Global.zip_path = "res://projects/KissMeSaurus.zip"
 		is_loading = true
 		loading_started = false
 		levels.visible = false
@@ -35,7 +47,6 @@ func _input(event):
 
 func _ready() -> void:
 	Global.load_settings()
-	Global.zip_path = "res://projects/KissMeSaurus.zip"
 	OS.request_permissions()
 	xr_interface = XRServer.find_interface("OpenXR")
 	if xr_interface and xr_interface.is_initialized():
@@ -197,7 +208,6 @@ func _on_custom_tab_pressed() -> void:
 	else:
 		for zip_path in zip_files:
 			add_map_button(zip_path)
-
 
 func _on_reach_slider_value_changed(value: float) -> void:
 	Global.player_reach = int(reach_slider.value)

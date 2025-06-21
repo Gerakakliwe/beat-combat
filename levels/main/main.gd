@@ -12,6 +12,13 @@ var xr_interface: XRInterface
 var points: int = 0
 var combo: int = 0
 
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		audio_stream_player.playing = false
+		Global.ogv_path = ""
+		get_tree().paused = false
+		get_tree().change_scene_to_file("res://levels/main_menu/main_menu.tscn")
+
 func _ready() -> void:
 	var video_stream = VideoStreamTheora.new()
 	video_stream.file = Global.ogv_path
@@ -73,6 +80,7 @@ func _on_controller_left_button_pressed(name: String) -> void:
 
 func _on_main_menu_pressed() -> void:
 	audio_stream_player.playing = false
+	Global.ogv_path = ""
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://levels/main_menu/main_menu.tscn")
 
