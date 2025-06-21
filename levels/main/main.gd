@@ -74,13 +74,13 @@ func _on_controller_left_button_pressed(name: String) -> void:
 func _on_main_menu_pressed() -> void:
 	audio_stream_player.playing = false
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://main_menu.tscn")
+	get_tree().change_scene_to_file("res://levels/main_menu/main_menu.tscn")
 
 func _on_restart_pressed() -> void:
 	get_tree().paused = false
 	pause_ui.visible = false
 	pause_ui.process_mode = Node.PROCESS_MODE_DISABLED
-	get_tree().change_scene_to_file("res://main.tscn")
+	get_tree().change_scene_to_file("res://levels/main/main.tscn")
 
 func _on_continue_pressed() -> void:
 	get_tree().paused = false

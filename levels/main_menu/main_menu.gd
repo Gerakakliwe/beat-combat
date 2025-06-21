@@ -58,12 +58,12 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if is_loading and not loading_started:
-		ResourceLoader.load_threaded_request("res://main.tscn")
+		ResourceLoader.load_threaded_request("res://levels/main/main.tscn")
 		loading_started = true
 	elif is_loading:
-		var status = ResourceLoader.load_threaded_get_status("res://main.tscn")
+		var status = ResourceLoader.load_threaded_get_status("res://levels/main/main.tscn")
 		if status == ResourceLoader.THREAD_LOAD_LOADED:
-			var new_scene = ResourceLoader.load_threaded_get("res://main.tscn")
+			var new_scene = ResourceLoader.load_threaded_get("res://levels/main/main.tscn")
 			get_tree().change_scene_to_packed(new_scene)
 
 	var cm = height_slider.value

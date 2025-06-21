@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="beat-combat"
-run/main_scene="res://main_menu.tscn"
+run/main_scene="res://levels/main_menu/main_menu.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 

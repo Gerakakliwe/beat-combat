@@ -1,12 +1,12 @@
 [gd_scene load_steps=29 format=3 uid="uid://b0f63xdklb1p1"]
 
-[ext_resource type="Script" uid="uid://drnhd6itip63a" path="res://main_menu.gd" id="1_eadea"]
+[ext_resource type="Script" uid="uid://drnhd6itip63a" path="res://levels/main_menu/main_menu.gd" id="1_eadea"]
 [ext_resource type="PackedScene" uid="uid://cpaw4k42b182w" path="res://blueprints/player/player.tscn" id="2_no17v"]
 [ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="4_2oobi"]
-[ext_resource type="PackedScene" uid="uid://clt18lkj7mabe" path="res://levels_ui.tscn" id="5_5br7a"]
-[ext_resource type="PackedScene" uid="uid://dvchvib32ogc7" path="res://start_ui.tscn" id="5_vphdo"]
-[ext_resource type="Material" uid="uid://ctj6ep3bxskjx" path="res://LevelMaterial.tres" id="6_nlkkf"]
-[ext_resource type="PackedScene" uid="uid://dxel208tx4ixc" path="res://settings_ui.tscn" id="6_qe12f"]
+[ext_resource type="PackedScene" uid="uid://clt18lkj7mabe" path="res://UI/levels_ui.tscn" id="5_5br7a"]
+[ext_resource type="PackedScene" uid="uid://dvchvib32ogc7" path="res://UI/start_ui.tscn" id="5_vphdo"]
+[ext_resource type="PackedScene" uid="uid://dxel208tx4ixc" path="res://UI/settings_ui.tscn" id="6_qe12f"]
+[ext_resource type="Material" uid="uid://ctj6ep3bxskjx" path="res://materials/LevelMaterial.tres" id="7_qe12f"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_quvnu"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -25,14 +25,14 @@ glow_enabled = true
 resource_local_to_scene = true
 size = Vector2(1280, 720)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_qe12f"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_vxpir"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8qtwp"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vxpir"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_qe12f")
+albedo_texture = SubResource("ViewportTexture_vxpir")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pa0d2"]
@@ -43,53 +43,53 @@ size = Vector3(1280, 720, 0.02)
 resource_local_to_scene = true
 size = Vector2(720, 720)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_dy7ct"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_2nemu"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0o4t1"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dedsy"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_dy7ct")
+albedo_texture = SubResource("ViewportTexture_2nemu")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tpc2i"]
 resource_local_to_scene = true
 size = Vector3(720, 720, 0.02)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_0k4wn"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_si2pl"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j5v2v"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2nemu"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_0k4wn")
+albedo_texture = SubResource("ViewportTexture_si2pl")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_8qtwp"]
 size = Vector3(12.8, 0.1, 15)
 
 [sub_resource type="BoxMesh" id="BoxMesh_dy7ct"]
-material = ExtResource("6_nlkkf")
+material = ExtResource("7_qe12f")
 size = Vector3(12.8, 0.1, 15)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dy7ct"]
 size = Vector3(12.8, 0.1, 15)
 
 [sub_resource type="BoxMesh" id="BoxMesh_0o4t1"]
-material = ExtResource("6_nlkkf")
+material = ExtResource("7_qe12f")
 size = Vector3(12.8, 0.1, 15)
 
 [sub_resource type="BoxMesh" id="BoxMesh_0k4wn"]
-material = ExtResource("6_nlkkf")
+material = ExtResource("7_qe12f")
 size = Vector3(0.1, 7.4, 15)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j5v2v"]
 size = Vector3(0.1, 7.4, 15)
 
 [sub_resource type="BoxMesh" id="BoxMesh_iotk1"]
-material = ExtResource("6_nlkkf")
+material = ExtResource("7_qe12f")
 size = Vector3(13, 7.4, 0.1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_w44g7"]
@@ -128,7 +128,7 @@ size = Vector2i(1280, 720)
 [node name="Screen" parent="Levels" index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.992586, 0)
 mesh = SubResource("QuadMesh_0hadb")
-surface_material_override/0 = SubResource("StandardMaterial3D_8qtwp")
+surface_material_override/0 = SubResource("StandardMaterial3D_vxpir")
 
 [node name="StaticBody3D" parent="Levels" index="2"]
 screen_size = Vector2(1280, 720)
@@ -151,7 +151,7 @@ size = Vector2i(720, 720)
 
 [node name="Screen" parent="Start" index="1"]
 mesh = SubResource("QuadMesh_704d8")
-surface_material_override/0 = SubResource("StandardMaterial3D_0o4t1")
+surface_material_override/0 = SubResource("StandardMaterial3D_dedsy")
 
 [node name="StaticBody3D" parent="Start" index="2"]
 screen_size = Vector2(720, 720)
@@ -174,7 +174,7 @@ size = Vector2i(720, 720)
 
 [node name="Screen" parent="Settings" index="1"]
 mesh = SubResource("QuadMesh_704d8")
-surface_material_override/0 = SubResource("StandardMaterial3D_j5v2v")
+surface_material_override/0 = SubResource("StandardMaterial3D_2nemu")
 
 [node name="StaticBody3D" parent="Settings" index="2"]
 screen_size = Vector2(720, 720)

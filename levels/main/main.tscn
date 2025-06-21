@@ -1,11 +1,11 @@
 [gd_scene load_steps=26 format=3 uid="uid://c0oa86ykcul02"]
 
-[ext_resource type="Script" uid="uid://bqhqfx2vgjjri" path="res://main.gd" id="1_noafd"]
-[ext_resource type="Material" uid="uid://ctj6ep3bxskjx" path="res://LevelMaterial.tres" id="2_272bh"]
+[ext_resource type="Script" uid="uid://bqhqfx2vgjjri" path="res://levels/main/main.gd" id="1_noafd"]
+[ext_resource type="Material" uid="uid://ctj6ep3bxskjx" path="res://materials/LevelMaterial.tres" id="2_272bh"]
 [ext_resource type="PackedScene" uid="uid://cpaw4k42b182w" path="res://blueprints/player/player.tscn" id="3_ppgdl"]
 [ext_resource type="PackedScene" uid="uid://dtd5bbfv0d07m" path="res://blueprints/spawner/music_spawner.tscn" id="3_tukhk"]
 [ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="4_g6ba3"]
-[ext_resource type="PackedScene" uid="uid://14bdi8q14ial" path="res://pause_ui.tscn" id="5_q6x6n"]
+[ext_resource type="PackedScene" uid="uid://14bdi8q14ial" path="res://UI/pause_ui.tscn" id="5_q6x6n"]
 [ext_resource type="PackedScene" uid="uid://dfasq74rhsw05" path="res://VideoPlayer.tscn" id="6_7mycd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_quvnu"]
@@ -49,14 +49,14 @@ size = Vector3(2, 2, 0.1)
 resource_local_to_scene = true
 size = Vector2(1280, 200)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_272bh"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_q42nm"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5vw27"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oclhf"]
 transparency = 1
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_272bh")
+albedo_texture = SubResource("ViewportTexture_q42nm")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r1bqb"]
@@ -67,13 +67,13 @@ size = Vector3(1280, 200, 0.02)
 resource_local_to_scene = true
 size = Vector2(1280, 720)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_kek77"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_sqa4f"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_272bh"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_20bwc"]
 transparency = 1
 cull_mode = 2
-albedo_texture = SubResource("ViewportTexture_kek77")
+albedo_texture = SubResource("ViewportTexture_sqa4f")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_efxa6"]
@@ -198,7 +198,7 @@ size = Vector2i(1280, 200)
 
 [node name="Screen" parent="PauseUI" index="1"]
 mesh = SubResource("QuadMesh_q6uhv")
-surface_material_override/0 = SubResource("StandardMaterial3D_5vw27")
+surface_material_override/0 = SubResource("StandardMaterial3D_oclhf")
 
 [node name="StaticBody3D" parent="PauseUI" index="2"]
 screen_size = Vector2(1280, 200)
@@ -222,7 +222,7 @@ size = Vector2i(1280, 720)
 
 [node name="Screen" parent="VideoPlayer" index="1"]
 mesh = SubResource("QuadMesh_5vw27")
-surface_material_override/0 = SubResource("StandardMaterial3D_272bh")
+surface_material_override/0 = SubResource("StandardMaterial3D_20bwc")
 
 [node name="StaticBody3D" parent="VideoPlayer" index="2"]
 collision_layer = 5242880
