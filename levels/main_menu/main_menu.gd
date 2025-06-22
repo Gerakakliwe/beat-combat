@@ -21,29 +21,29 @@ var map_buttons = []
 var selected_map_button = null
 var is_loading = false
 var loading_started = false
+var map_select_value = -1
 
 func _input(event):
 	if event.is_action_pressed("ui_page_up"):
-		Global.zip_path = "res://projects/zako.zip"
-		is_loading = true
-		loading_started = false
-		levels.visible = false
-		start.visible = false
-		settings.visible = false
-		Global.player_height = int(height_slider.value)
-		Global.player_reach = int(reach_slider.value)
-		$LoadingLabel.visible = true
+		map_select_value -= 1
+		if map_select_value < 0:
+			map_select_value = 0
+		map_buttons[map_select_value].emit_signal("pressed")
 
 	if event.is_action_pressed("ui_page_down"):
-		Global.zip_path = "res://projects/KissMeSaurus.zip"
-		is_loading = true
-		loading_started = false
-		levels.visible = false
-		start.visible = false
-		settings.visible = false
-		Global.player_height = int(height_slider.value)
-		Global.player_reach = int(reach_slider.value)
-		$LoadingLabel.visible = true
+		map_select_value += 1
+		if map_select_value > map_buttons.size() - 1:
+			map_select_value = map_buttons.size() - 1
+		map_buttons[map_select_value].emit_signal("pressed")
+
+	if event.is_action_pressed("ui_down"):
+		scroll_container.scroll_vertical += 50
+
+	if event.is_action_pressed("ui_up"):
+		scroll_container.scroll_vertical -= 50
+
+	if event.is_action_pressed("ui_accept"):
+		_on_start_button_pressed()
 
 func _ready() -> void:
 	Global.load_settings()
