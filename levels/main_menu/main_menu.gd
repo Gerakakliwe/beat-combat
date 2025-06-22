@@ -108,6 +108,7 @@ func get_zip_files(path: String) -> Array:
 	return zip_list
 
 func add_map_button(zip_path: String):
+	load_level_metadata(zip_path)
 	var map_list_container = levels_container
 	var button = Button.new()
 	button.text = zip_path.get_file().replace(".zip", "").capitalize()
@@ -120,7 +121,19 @@ func add_map_button(zip_path: String):
 
 func _on_map_button_pressed(zip_path: String, pressed_button: Button):
 	print("Loading map from:", zip_path)
-	load_level_metadata(zip_path)
+	var target_counter = 0
+	var obstacle_counter = 0
+	bpm_value.text = str(Global.level_metadata_cache[zip_path]["bpm"])
+	var events = Global.level_metadata_cache[zip_path]["events"]
+	for event in events:
+		if "wall" in event["scene"]:
+			obstacle_counter += 1
+		else:
+			target_counter += 1
+
+	targets_count_value.text = str(target_counter)
+	obstacles_count_value.text = str(obstacle_counter)
+
 	Global.zip_path = zip_path
 	start_button.disabled = false
 
@@ -141,8 +154,9 @@ func _on_map_button_pressed(zip_path: String, pressed_button: Button):
 
 
 func load_level_metadata(zip_path: String):
-	var target_counter = 0
-	var obstacle_counter = 0
+	if Global.level_metadata_cache.has(zip_path):
+		return Global.level_metadata_cache[zip_path]
+
 	var reader = ZIPReader.new()
 	if reader.open(zip_path) != OK:
 		push_error("Can't open ZIP: " + zip_path)
@@ -160,20 +174,7 @@ func load_level_metadata(zip_path: String):
 				return {}
 
 			var data = json.data
-			var bpm = data.get("bpm", [])
-			bpm_value.text = str(bpm)
-			var events = data.get("events", [])
-			for event in events:
-				if "wall" in event["scene"]:
-					obstacle_counter += 1
-				else:
-					target_counter += 1
-
-			targets_count_value.text = str(target_counter)
-			obstacles_count_value.text = str(obstacle_counter)
-
-		#if file_path.ends_with(".ogg"):
-			#print(file_path)
+			Global.level_metadata_cache[zip_path] = data
 
 	reader.close()
 
