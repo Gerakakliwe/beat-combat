@@ -16,6 +16,10 @@ extends Node3D
 @onready var reach_slider: HSlider = $Settings/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/ReachContainer/ReachSlider
 @onready var current_reach: Label = $Settings/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/ReachContainer/CurrentReach
 
+@onready var bpm_value: Label = $Start/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/BPMContainer/BPMValue
+@onready var targets_count_value: Label = $Start/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TargetsContainer/TargetsCountValue
+@onready var obstacles_count_value: Label = $Start/Viewport/CanvasLayer/Control/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/ObstaclesContainer/ObstaclesCountValue
+
 var xr_interface: XRInterface
 var map_buttons = []
 var selected_map_button = null
@@ -116,6 +120,7 @@ func add_map_button(zip_path: String):
 
 func _on_map_button_pressed(zip_path: String, pressed_button: Button):
 	print("Loading map from:", zip_path)
+	load_level_metadata(zip_path)
 	Global.zip_path = zip_path
 	start_button.disabled = false
 
@@ -133,6 +138,44 @@ func _on_map_button_pressed(zip_path: String, pressed_button: Button):
 	pressed_button.add_theme_stylebox_override("pressed", highlight)
 
 	selected_map_button = pressed_button
+
+
+func load_level_metadata(zip_path: String):
+	var target_counter = 0
+	var obstacle_counter = 0
+	var reader = ZIPReader.new()
+	if reader.open(zip_path) != OK:
+		push_error("Can't open ZIP: " + zip_path)
+		return {}
+
+	for file_path in reader.get_files():
+		if file_path.ends_with(".json"):
+			var bytes = reader.read_file(file_path)
+			reader.close()
+			var json_str = bytes.get_string_from_utf8()
+			var json = JSON.new()
+			var err = json.parse(json_str)
+			if err != OK:
+				push_error("JSON parse error: %s at line %d" % [json.get_error_message(), json.get_error_line()])
+				return {}
+
+			var data = json.data
+			var bpm = data.get("bpm", [])
+			bpm_value.text = str(bpm)
+			var events = data.get("events", [])
+			for event in events:
+				if "wall" in event["scene"]:
+					obstacle_counter += 1
+				else:
+					target_counter += 1
+
+			targets_count_value.text = str(target_counter)
+			obstacles_count_value.text = str(obstacle_counter)
+
+		#if file_path.ends_with(".ogg"):
+			#print(file_path)
+
+	reader.close()
 
 func _on_start_button_pressed() -> void:
 	is_loading = true

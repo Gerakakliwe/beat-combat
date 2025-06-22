@@ -34,7 +34,57 @@ theme_override_constants/margin_right = 50
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/ColorRect/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_constants/separation = 50
 alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 80
+
+[node name="BPMContainer" type="VBoxContainer" parent="Control/ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="BPMTitle" type="Label" parent="Control/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/BPMContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "BPM"
+
+[node name="BPMValue" type="Label" parent="Control/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/BPMContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "000.0"
+horizontal_alignment = 1
+
+[node name="TargetsContainer" type="VBoxContainer" parent="Control/ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="TargetsCountTitle" type="Label" parent="Control/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TargetsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "TARGETS"
+
+[node name="TargetsCountValue" type="Label" parent="Control/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/TargetsContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "***"
+horizontal_alignment = 1
+
+[node name="ObstaclesContainer" type="VBoxContainer" parent="Control/ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="ObstaclesCountTitle" type="Label" parent="Control/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/ObstaclesContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "WALLS"
+
+[node name="ObstaclesCountValue" type="Label" parent="Control/ColorRect/MarginContainer/VBoxContainer/HBoxContainer/ObstaclesContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "***"
+horizontal_alignment = 1
 
 [node name="StartButton" type="Button" parent="Control/ColorRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
