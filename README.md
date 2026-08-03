@@ -6,3 +6,6 @@ Mapping freedom of Beat Saber (using a dedicated map creator) [https://gitlab.co
 And fitness levels of Les Mills BodyCombat.
 
 Dev-tested using Meta Quest 2 & 3
+
+![mainMenu](images/main_menu.png)
+![gameplay](images/gameplay.png)
